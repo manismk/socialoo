@@ -1,0 +1,78 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pacifico&display=swap");
+
+:root {
+  --bg-color: #eee;
+  --primary--color: #900c3f;
+  --primary--color--light: #ffc300;
+  --text-color: #06113c;
+}
+
+body {
+  font-family: "inter", sans-serif;
+  background-color: var(--bg-color);
+}
+
+.App {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+.container--100 {
+  max-width: 100rem;
+  margin: 0 auto;
+}
+
+.grid {
+  gap: 2rem;
+}
+
+.main-container {
+  margin: 1rem;
+  margin-left: 13rem;
+  margin-bottom: 0;
+  padding-bottom: 2rem;
+}
+
+.gradient-bg {
+  background-image: linear-gradient(
+    to right,
+    #c70039,
+    #e0432e,
+    #f26f1f,
+    #fd9908,
+    #ffc300
+  );
+}
+.btn--primary {
+  transition: 0.5s;
+  background-size: 200% auto;
+  box-shadow: 0 0 20px #eee;
+  border: none;
+}
+
+.btn--primary:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.primary-color {
+  color: var(--primary--color);
+}
+
+/* @media only screen and (max-width: 600px) {
+  .main-container {
+    margin: 1rem;
+    padding-bottom: 5rem;
+  }
+} */
+@media only screen and (max-width: 450px) {
+  .Toastify__toast-container .Toastify__toast {
+    margin: 1rem;
+  }
+  /* .main-container {
+    margin: 1rem;
+    padding-bottom: 5rem;
+  } */
+}
