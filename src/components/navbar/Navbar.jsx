@@ -1,7 +1,11 @@
 import { Bookmark, Explore, Home, Person } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { usePosts } from "../../context";
 import "./navbar.css";
+
+const activeLink = ({ isActive }) => ({
+  color: isActive ? "var(--primary--color)" : "",
+});
 
 export const Navbar = () => {
   const { openModal } = usePosts();
@@ -15,24 +19,24 @@ export const Navbar = () => {
         Create Post
       </button>
       <div className="navbar--action--container">
-        <Link className="nav--item" to="/">
+        <NavLink style={activeLink} className="nav--item" to="/">
           <Home />
           <span>Home</span>
-        </Link>
-        <Link className="nav--item" to="/">
+        </NavLink>
+        <NavLink style={activeLink} className="nav--item" to="/">
           <Explore />
           <span>Explore</span>
-        </Link>
+        </NavLink>
 
-        <Link className="nav--item" to="/saved">
+        <NavLink style={activeLink} className="nav--item" to="/saved">
           <Bookmark />
           <span>Saved</span>
-        </Link>
+        </NavLink>
 
-        <Link className="nav--item" to="/profile">
+        <NavLink style={activeLink} className="nav--item" to="/profile">
           <Person />
           <span>Profile</span>
-        </Link>
+        </NavLink>
       </div>
     </header>
   );
