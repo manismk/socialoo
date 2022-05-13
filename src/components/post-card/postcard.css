@@ -67,6 +67,11 @@
   font-size: 0.7rem;
 }
 
+.post--actions:hover,
+.post--actions.active {
+  color: var(--primary--color);
+}
+
 .post--status {
   display: flex;
   padding: 0 1rem 1rem 1rem;

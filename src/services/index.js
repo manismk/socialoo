@@ -1,0 +1,1 @@
+export { handleLike } from "./handleLike";

@@ -1,19 +1,24 @@
 import {
   BookmarkBorder,
   ChatBubbleOutline,
+  Favorite,
   FavoriteBorder,
   MoreVert,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useUser } from "../../context";
+import { useAuth, useUser } from "../../context";
+import { handleLike } from "../../services";
 import "./postcard.css";
 
 export const PostCard = ({ post }) => {
   const { allUsers } = useUser();
+  const { user } = useAuth();
   const [postUserData, setPostUserData] = useState({
     profilePictureUrl: "",
     firstName: "",
     lastName: "",
+    isLiked: false,
+    isThisPostFromCurrentUser: false,
   });
   useEffect(() => {
     const { profilePictureUrl, firstName, lastName } = allUsers.users.find(
@@ -24,8 +29,10 @@ export const PostCard = ({ post }) => {
       profilePictureUrl,
       firstName,
       lastName,
+      isLiked: post.likedIds.includes(user.uid),
+      isThisPostFromCurrentUser: post.uid === user.uid,
     }));
-  }, []);
+  }, [post]);
   return (
     <div className="post--card">
       <div className="post--header">
@@ -39,12 +46,16 @@ export const PostCard = ({ post }) => {
             {postUserData.firstName} {postUserData.lastName}
           </p>
         </div>
-        <div>
-          <button className="btn btn--link">Follow</button>
-          <button className="btn icon--btn">
-            <MoreVert />
-          </button>
-        </div>
+        {postUserData.isThisPostFromCurrentUser ? (
+          <div>
+            <button className="btn btn--link">Edit</button>
+            <button className="btn btn--link">Delete</button>
+          </div>
+        ) : (
+          <div>
+            <button className="btn btn--link">Follow</button>
+          </div>
+        )}
       </div>
       {post.imageUrl && (
         <div className="post--image--container">
@@ -55,9 +66,22 @@ export const PostCard = ({ post }) => {
       <div className="post--footer">
         <div className="post--action--container">
           <div>
-            <button className="btn icon--btn post--actions" title="Like">
-              <FavoriteBorder />
-              <span>Like</span>
+            <button
+              className={`btn icon--btn post--actions ${
+                postUserData.isLiked ? "active" : ""
+              }`}
+              title="Like"
+              onClick={() =>
+                handleLike(
+                  postUserData.isLiked,
+                  post.likedIds,
+                  user.uid,
+                  post.postId
+                )
+              }
+            >
+              {postUserData.isLiked ? <Favorite /> : <FavoriteBorder />}
+              <span>{postUserData.isLiked ? "Liked" : "Like"}</span>
             </button>
             <button className="btn icon--btn post--actions">
               <ChatBubbleOutline />
