@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
-import { usePosts } from "../../context";
+import { usePosts, useUser } from "../../context";
 import "./createPostModal.css";
 
 const fileTypes = ["JPEG", "PNG", "JPG"];
@@ -14,6 +14,7 @@ export const CreatePostModal = () => {
     imageLink: "",
   });
   const { closeModal, createPost } = usePosts();
+  const { userData } = useUser();
 
   const handleImageUploader = (file) => {
     setPostData((prevData) => ({
@@ -42,52 +43,39 @@ export const CreatePostModal = () => {
         <h5 className="modal--heading heading--4 text--center">
           Create New Post
         </h5>
-        <div
-          className={`input--container input--${
-            postData.captionError.length ? "error" : "standard"
-          } m-t-2`}
-        >
-          <label htmlFor="bio" className="input--label">
-            caption
-          </label>
-          <textarea
-            id="caption--textarea"
-            className="bio--textarea"
-            value={postData.caption}
-            placeholder="Share your thoughts here"
-            onChange={(e) => {
-              setPostData((prevData) => ({
-                ...prevData,
-                caption: e.target.value,
-                captionError: "",
-              }));
-            }}
-          ></textarea>
-          <span className="input--error--message">{postData.captionError}</span>
-        </div>
-        <div className="file--uploader">
-          <FileUploader
-            multiple={false}
-            handleChange={handleImageUploader}
-            name="file"
-            types={fileTypes}
-            maxSize="3"
-            onSizeError={() =>
-              setPostData((prevData) => ({
-                ...prevData,
-                imageFileError: "Choose image less than 3MB",
-                imageFile: null,
-              }))
-            }
-            onTypeError={() => {
-              setPostData((prevData) => ({
-                ...prevData,
-                imageFileError: "Choose image of type JPG,JPEG,PNG",
-                imageFile: null,
-              }));
-            }}
+        <div className="caption--container">
+          <img
+            src={userData.profilePictureUrl}
+            alt="Randomuser"
+            className="avatar avatar--circle avatar--xs"
           />
+          <div
+            className={`input--container input--${
+              postData.captionError.length ? "error" : "standard"
+            } `}
+          >
+            <label htmlFor="bio" className="input--label">
+              caption
+            </label>
+            <textarea
+              id="caption--textarea"
+              className="bio--textarea"
+              value={postData.caption}
+              placeholder="Share your thoughts here"
+              onChange={(e) => {
+                setPostData((prevData) => ({
+                  ...prevData,
+                  caption: e.target.value,
+                  captionError: "",
+                }));
+              }}
+            ></textarea>
+            <span className="input--error--message">
+              {postData.captionError}
+            </span>
+          </div>
         </div>
+
         {postData.imageFileError.length > 0 && (
           <p className="input--error--message text--center">
             {postData.imageFileError}
@@ -100,6 +88,29 @@ export const CreatePostModal = () => {
         )}
 
         <div className="modal--actions">
+          <div className="file--uploader">
+            <FileUploader
+              multiple={false}
+              handleChange={handleImageUploader}
+              name="file"
+              types={fileTypes}
+              maxSize="3"
+              onSizeError={() =>
+                setPostData((prevData) => ({
+                  ...prevData,
+                  imageFileError: "Choose image less than 3MB",
+                  imageFile: null,
+                }))
+              }
+              onTypeError={() => {
+                setPostData((prevData) => ({
+                  ...prevData,
+                  imageFileError: "Choose image of type JPG,JPEG,PNG",
+                  imageFile: null,
+                }));
+              }}
+            />
+          </div>
           <button href="#" className="btn btn--primary " onClick={closeModal}>
             Cancel
           </button>

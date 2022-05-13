@@ -4,10 +4,11 @@
 }
 
 .file--uploader label {
-  width: 90%;
+  width: 95%;
   min-width: unset;
+  max-width: unset;
   border-color: var(--primary--color);
-  margin: 1rem auto;
+  margin: auto;
 }
 
 .file--uploader svg path {
@@ -22,6 +23,34 @@
 .post--modal--image--container img {
   max-height: 25rem;
   object-fit: cover;
+}
+
+.caption--container {
+  display: flex;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.caption--container img {
+  align-self: flex-start;
+}
+
+.caption--container .input--container {
+  flex-grow: 1;
+  margin: 0;
+}
+
+.caption--container .bio--textarea {
+  height: 15vh;
+}
+
+.modal--actions {
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.modal--actions .file--uploader {
+  flex-grow: 1;
 }
 
 @media only screen and (max-width: 1250px) {
