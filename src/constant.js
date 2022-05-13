@@ -4,4 +4,5 @@ export const routes = {
   SIGNUP_PAGE: "/signup",
   PROFILE_PAGE: "/profile",
   SAVED_PAGE: "/saved",
+  EXPLORE_PAGE: "/explore",
 };

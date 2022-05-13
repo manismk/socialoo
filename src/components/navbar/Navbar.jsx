@@ -23,7 +23,7 @@ export const Navbar = () => {
           <Home />
           <span>Home</span>
         </NavLink>
-        <NavLink style={activeLink} className="nav--item" to="/">
+        <NavLink style={activeLink} className="nav--item" to="/explore">
           <Explore />
           <span>Explore</span>
         </NavLink>
