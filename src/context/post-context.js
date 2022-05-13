@@ -26,7 +26,7 @@ const PostProvider = ({ children }) => {
     } catch (e) {
       console.error("Error in getting posts data", e);
     }
-  }, []);
+  }, [user]);
 
   const openModal = () =>
     setPosts((prev) => ({ ...prev, isCreatePostModalOpen: true }));

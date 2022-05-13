@@ -4,7 +4,6 @@ import "./home.css";
 
 export const Home = () => {
   const { posts } = usePosts();
-  console.log(posts);
 
   return (
     <div className="container">
