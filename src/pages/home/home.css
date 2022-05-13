@@ -1,0 +1,13 @@
+.container {
+  margin: 1rem auto;
+  max-width: 50rem;
+  display: flex;
+  gap: 1.5rem;
+  /* flex-wrap: wrap; */
+}
+
+.post--container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}

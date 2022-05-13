@@ -1,0 +1,208 @@
+import { CameraAlt } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { useUser } from "../../context";
+import { handleEditProfileValidation } from "../../utils";
+import { InputTextBox } from "../input/InputTextBox";
+import "./editProfileModal.css";
+
+export const EditProfileModal = ({ closeModal }) => {
+  const { userData, updateUserData } = useUser();
+  const [editData, setEditData] = useState({
+    firstName: "",
+    lastName: "",
+    firstNameError: "",
+    lastNameError: "",
+    bio: "",
+    bioError: "",
+    profileImage: "",
+    portfolioLink: "",
+    portfolioLinkError: "",
+    profileImageError: "",
+    raw: "",
+  });
+
+  useEffect(() => {
+    if (userData.firstName !== undefined) {
+      setEditData((prev) => ({
+        ...prev,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        bio: userData.bio,
+        profileImage: userData.profilePictureUrl,
+        portfolioLink: userData.portfolioLink,
+      }));
+    }
+  }, [userData]);
+
+  const editHandler = () => {
+    const { firstNameError, lastNameError, bioError, portfolioLinkError } =
+      handleEditProfileValidation(
+        editData.firstName,
+        editData.lastName,
+        editData.bio,
+        editData.portfolioLink
+      );
+
+    if (
+      bioError.length ||
+      portfolioLinkError.length ||
+      lastNameError.length ||
+      firstNameError.length
+    ) {
+      setEditData((prevData) => ({
+        ...prevData,
+        firstNameError,
+        lastNameError,
+        bioError,
+        portfolioLinkError,
+      }));
+    }
+    if (
+      bioError.length === 0 &&
+      portfolioLinkError.length === 0 &&
+      firstNameError.length === 0 &&
+      lastNameError.length === 0 &&
+      editData.profileImageError.length === 0
+    ) {
+      closeModal();
+      updateUserData(
+        editData.firstName,
+        editData.lastName,
+        editData.bio,
+        editData.portfolioLink,
+        editData.profileImage,
+        editData.raw
+      );
+    }
+  };
+
+  return (
+    <>
+      <div className="modal modal--alert modal--profile ">
+        <h5 className="modal--heading heading--4 text--center">Edit profile</h5>
+        <div className="edit--img--badge">
+          <div className="badge--container ">
+            <img
+              src={editData.profileImage}
+              alt={`${editData.firstName} ${editData.lastName}`}
+              className="m-r-1 avatar avatar--circle avatar--md"
+            />
+
+            <label>
+              <input
+                type="file"
+                id="upload_file"
+                className="upload--button"
+                accept="image/*"
+                name=""
+                onChange={(e) => {
+                  if (e.target.files[0].size < 2 * Math.pow(10, 6))
+                    setEditData((prev) => ({
+                      ...prev,
+                      profileImage: URL.createObjectURL(e.target.files[0]),
+                      raw: e.target.files[0],
+                      profileImageError: "",
+                    }));
+                  else
+                    setEditData((prev) => ({
+                      ...prev,
+                      profileImageError: "Choose Image Less than 2MB",
+                      profileImage: URL.createObjectURL(e.target.files[0]),
+                    }));
+                }}
+              />
+              <CameraAlt className="badge badge--button" />
+            </label>
+          </div>
+        </div>
+        {editData.profileImageError.length > 0 && (
+          <p className="input--error--message text--center">
+            {editData.profileImageError}
+          </p>
+        )}
+
+        <div className="signup--name--container">
+          <InputTextBox
+            error={editData.firstNameError}
+            labelName="First Name"
+            id="firstName"
+            changeHandler={(e) => {
+              setEditData((prevData) => ({
+                ...prevData,
+                firstName: e.target.value,
+                firstNameError: "",
+              }));
+            }}
+            value={editData.firstName}
+            type="text"
+            placeHolder="John"
+          />
+          <InputTextBox
+            error={editData.lastNameError}
+            labelName="Last Name"
+            id="lastName"
+            changeHandler={(e) => {
+              setEditData((prevData) => ({
+                ...prevData,
+                lastName: e.target.value,
+                lastNameError: "",
+              }));
+            }}
+            value={editData.lastName}
+            type="text"
+            placeHolder="Doe"
+          />
+        </div>
+        <div
+          className={`input--container input--${
+            editData.bioError.length ? "error" : "standard"
+          } m-t-2`}
+        >
+          <label htmlFor="bio" className="input--label">
+            Bio
+          </label>
+          <textarea
+            id="w3review"
+            name="w3review"
+            className="bio--textarea"
+            value={editData.bio}
+            placeholder="I am john doe. I work at XXX company"
+            onChange={(e) => {
+              setEditData((prevData) => ({
+                ...prevData,
+                bio: e.target.value,
+                bioError: "",
+              }));
+            }}
+          ></textarea>
+          <span className="input--error--message">{editData.bioError}</span>
+        </div>
+
+        <InputTextBox
+          error={editData.portfolioLinkError}
+          labelName="PortFolio Link"
+          id="portfolio-link"
+          changeHandler={(e) => {
+            setEditData((prevData) => ({
+              ...prevData,
+              portfolioLink: e.target.value,
+              portfolioLinkError: "",
+            }));
+          }}
+          value={editData.portfolioLink}
+          type="text"
+          placeHolder="https://www.google.com/"
+        />
+        <div className="modal--actions">
+          <button href="#" className="btn btn--primary " onClick={closeModal}>
+            Cancel
+          </button>
+          <button href="#" className="btn btn--primary " onClick={editHandler}>
+            Save
+          </button>
+        </div>
+      </div>
+      <div className="overlay " onClick={closeModal}></div>
+    </>
+  );
+};

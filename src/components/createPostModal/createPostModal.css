@@ -1,0 +1,31 @@
+.modal--post {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.file--uploader label {
+  width: 90%;
+  min-width: unset;
+  border-color: var(--primary--color);
+  margin: 1rem auto;
+}
+
+.file--uploader svg path {
+  fill: var(--primary--color);
+}
+
+.post--modal--image--container {
+  max-width: 25rem;
+  margin: 1rem auto;
+}
+
+.post--modal--image--container img {
+  max-height: 25rem;
+  object-fit: cover;
+}
+
+@media only screen and (max-width: 1250px) {
+  .modal--post {
+    width: 70%;
+  }
+}
