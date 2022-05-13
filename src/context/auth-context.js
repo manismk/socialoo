@@ -41,6 +41,7 @@ const AuthProvider = ({ children }) => {
             "https://firebasestorage.googleapis.com/v0/b/socialoo-e8f1c.appspot.com/o/profile-default.jpg?alt=media&token=2eaaa7f6-3f12-401b-b784-41deb1583aed",
           portfolioLink: "",
           uid: response.user.uid,
+          saved: [],
         });
       })
       .catch((e) => {

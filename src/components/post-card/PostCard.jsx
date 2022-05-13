@@ -1,4 +1,5 @@
 import {
+  Bookmark,
   BookmarkBorder,
   ChatBubbleOutline,
   Favorite,
@@ -7,7 +8,7 @@ import {
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useAuth, useUser } from "../../context";
-import { handleLike } from "../../services";
+import { handleLike, handleSave } from "../../services";
 import "./postcard.css";
 
 export const PostCard = ({ post }) => {
@@ -19,6 +20,8 @@ export const PostCard = ({ post }) => {
     lastName: "",
     isLiked: false,
     isThisPostFromCurrentUser: false,
+    isSaved: false,
+    savedArray: [],
   });
   useEffect(() => {
     const { profilePictureUrl, firstName, lastName } = allUsers.users.find(
@@ -31,8 +34,12 @@ export const PostCard = ({ post }) => {
       lastName,
       isLiked: post.likedIds.includes(user.uid),
       isThisPostFromCurrentUser: post.uid === user.uid,
+      isSaved: allUsers.users
+        .find((curr) => curr.uid === user.uid)
+        .saved.includes(post.postId),
+      savedArray: allUsers.users.find((curr) => curr.uid === user.uid).saved,
     }));
-  }, [post]);
+  }, [post, allUsers.users]);
   return (
     <div className="post--card">
       <div className="post--header">
@@ -88,9 +95,22 @@ export const PostCard = ({ post }) => {
               <span>Comment</span>
             </button>
           </div>
-          <button className="btn icon--btn post--actions">
-            <BookmarkBorder />
-            <span>Save</span>
+          <button
+            className={`btn icon--btn post--actions ${
+              postUserData.isSaved ? "active" : ""
+            }`}
+            title="Save"
+            onClick={() =>
+              handleSave(
+                postUserData.isSaved,
+                postUserData.savedArray,
+                user.uid,
+                post.postId
+              )
+            }
+          >
+            {postUserData.isSaved ? <Bookmark /> : <BookmarkBorder />}
+            <span>{postUserData.isSaved ? "Saved" : "Save"}</span>
           </button>
         </div>
         <div className="post--status">

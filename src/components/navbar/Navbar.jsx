@@ -24,7 +24,7 @@ export const Navbar = () => {
           <span>Explore</span>
         </Link>
 
-        <Link className="nav--item" to="/">
+        <Link className="nav--item" to="/saved">
           <Bookmark />
           <span>Saved</span>
         </Link>
