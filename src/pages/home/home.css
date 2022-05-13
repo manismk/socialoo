@@ -3,6 +3,8 @@
   max-width: 50rem;
   display: flex;
   gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .post--container {
@@ -10,5 +12,11 @@
   grid-template-columns: 1fr;
   gap: 2rem;
   align-self: flex-start;
-  width: 100%;
+  flex-grow: 1;
+}
+
+@media only screen and (max-width: 900px) {
+  .post--container {
+    flex-grow: unset;
+  }
 }

@@ -10,12 +10,12 @@ export const Profile = () => {
   const { posts } = usePosts();
   const [showEditModal, setEditModal] = useState(false);
   const [currentUserData, setCurrentUserData] = useState({
-    currentUserPosts: [],
+    posts: [],
   });
   useEffect(() => {
     setCurrentUserData((prev) => ({
       ...prev,
-      currentUserPosts: posts.posts.filter((post) => post.uid === userData.uid),
+      posts: posts.posts.filter((post) => post.uid === userData.uid),
     }));
   }, [posts, userData.uid]);
 
@@ -50,7 +50,9 @@ export const Profile = () => {
         )}
         <div className="profile--details--container">
           <div className="profile--details--item">
-            <p className="profile--details--count">0</p>
+            <p className="profile--details--count">
+              {currentUserData.posts.length}
+            </p>
             <p className="profile--details--name">Posts</p>
           </div>
           <div className="profile--details--item">
@@ -66,7 +68,7 @@ export const Profile = () => {
       <div className="profile--posts ">
         <h3 className="heading--3 text--center m-t-2 m-b-1">Recent Posts</h3>
         <div className="profile--post--container">
-          {currentUserData.currentUserPosts.map((post) => (
+          {currentUserData.posts.map((post) => (
             <PostCard post={post} key={post.postId} />
           ))}
         </div>
