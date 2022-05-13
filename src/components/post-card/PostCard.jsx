@@ -4,15 +4,19 @@ import {
   ChatBubbleOutline,
   Favorite,
   FavoriteBorder,
-  MoreVert,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useAuth, useUser } from "../../context";
-import { handleLike, handleSave } from "../../services";
+import {
+  handleFollow,
+  handleLike,
+  handleSave,
+  handleUnfollow,
+} from "../../services";
 import "./postcard.css";
 
 export const PostCard = ({ post }) => {
-  const { allUsers } = useUser();
+  const { allUsers, userData } = useUser();
   const { user } = useAuth();
   const [postUserData, setPostUserData] = useState({
     profilePictureUrl: "",
@@ -22,11 +26,12 @@ export const PostCard = ({ post }) => {
     isThisPostFromCurrentUser: false,
     isSaved: false,
     savedArray: [],
+    isAlreadyFollowing: false,
   });
+
   useEffect(() => {
-    const { profilePictureUrl, firstName, lastName } = allUsers.users.find(
-      (user) => user.uid === post.uid
-    );
+    const { profilePictureUrl, firstName, lastName, followers } =
+      allUsers.users.find((user) => user.uid === post.uid);
     setPostUserData((prev) => ({
       ...prev,
       profilePictureUrl,
@@ -34,12 +39,12 @@ export const PostCard = ({ post }) => {
       lastName,
       isLiked: post.likedIds.includes(user.uid),
       isThisPostFromCurrentUser: post.uid === user.uid,
-      isSaved: allUsers.users
-        .find((curr) => curr.uid === user.uid)
-        .saved.includes(post.postId),
-      savedArray: allUsers.users.find((curr) => curr.uid === user.uid).saved,
+      isSaved: userData?.saved?.includes(post.postId),
+      savedArray: userData.saved,
+      isAlreadyFollowing: userData?.following?.includes(post.uid),
+      postFollowers: followers,
     }));
-  }, [post, allUsers.users]);
+  }, [post, allUsers, user, userData]);
   return (
     <div className="post--card">
       <div className="post--header">
@@ -60,7 +65,26 @@ export const PostCard = ({ post }) => {
           </div>
         ) : (
           <div>
-            <button className="btn btn--link">Follow</button>
+            <button
+              className="btn btn--link"
+              onClick={() =>
+                postUserData.isAlreadyFollowing
+                  ? handleUnfollow(
+                      userData.uid,
+                      userData.following,
+                      post.uid,
+                      postUserData.postFollowers
+                    )
+                  : handleFollow(
+                      userData.uid,
+                      userData.following,
+                      post.uid,
+                      postUserData.postFollowers
+                    )
+              }
+            >
+              {postUserData.isAlreadyFollowing ? "Unfollow" : "Follow"}
+            </button>
           </div>
         )}
       </div>

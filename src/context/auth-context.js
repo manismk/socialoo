@@ -42,6 +42,8 @@ const AuthProvider = ({ children }) => {
           portfolioLink: "",
           uid: response.user.uid,
           saved: [],
+          followers: [],
+          following: [],
         });
       })
       .catch((e) => {
