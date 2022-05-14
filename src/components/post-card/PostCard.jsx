@@ -16,7 +16,7 @@ import {
 import "./postcard.css";
 
 export const PostCard = ({ post }) => {
-  const { allUsers, userData } = useUser();
+  const { allUsers } = useUser();
   const { user } = useAuth();
   const [postUserData, setPostUserData] = useState({
     profilePictureUrl: "",
@@ -39,12 +39,12 @@ export const PostCard = ({ post }) => {
       lastName,
       isLiked: post.likedIds.includes(user.uid),
       isThisPostFromCurrentUser: post.uid === user.uid,
-      isSaved: userData?.saved?.includes(post.postId),
-      savedArray: userData.saved,
-      isAlreadyFollowing: userData?.following?.includes(post.uid),
+      isSaved: allUsers?.currentUser?.saved?.includes(post.postId),
+      savedArray: allUsers?.currentUser?.saved,
+      isAlreadyFollowing: allUsers?.currentUser?.following?.includes(post.uid),
       postFollowers: followers,
     }));
-  }, [post, allUsers, user, userData]);
+  }, [post, allUsers, user]);
   return (
     <div className="post--card">
       <div className="post--header">
@@ -70,14 +70,14 @@ export const PostCard = ({ post }) => {
               onClick={() =>
                 postUserData.isAlreadyFollowing
                   ? handleUnfollow(
-                      userData.uid,
-                      userData.following,
+                      allUsers?.currentUser.uid,
+                      allUsers?.currentUser.following,
                       post.uid,
                       postUserData.postFollowers
                     )
                   : handleFollow(
-                      userData.uid,
-                      userData.following,
+                      allUsers?.currentUser.uid,
+                      allUsers?.currentUser.following,
                       post.uid,
                       postUserData.postFollowers
                     )

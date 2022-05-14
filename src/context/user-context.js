@@ -7,8 +7,7 @@ import { toast } from "react-toastify";
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-  const [userData, setUserData] = useState({});
-  const [allUsers, setAllUsers] = useState({ users: [] });
+  const [allUsers, setAllUsers] = useState({ users: [], currentUser: {} });
   const { user } = useAuth();
 
   useEffect(() => {
@@ -21,15 +20,17 @@ const UserProvider = ({ children }) => {
           })),
         }));
       });
-      db.collection(`users`)
-        .doc(`${user.uid}`)
-        .onSnapshot((query) => {
-          setUserData({ ...query.data() });
-        });
     } catch (e) {
       console.error("Error in getting userData", e);
     }
   }, [user.uid]);
+
+  useEffect(() => {
+    setAllUsers((prev) => ({
+      ...prev,
+      currentUser: allUsers.users.find((us) => us.uid === user.uid),
+    }));
+  }, [allUsers.users, user.uid]);
 
   const updateProfileDataInFirebase = (
     firstName,
@@ -59,7 +60,7 @@ const UserProvider = ({ children }) => {
     profileImage,
     rawData
   ) => {
-    if (profileImage !== userData.profilePictureUrl) {
+    if (profileImage !== allUsers?.currentUser.profilePictureUrl) {
       const uploadTask = storage
         .ref()
         .child(`users/${user.uid}_profile.${rawData.name.split(".")[1]}`)
@@ -96,9 +97,7 @@ const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider
-      value={{ userData, setUserData, updateUserData, allUsers }}
-    >
+    <UserContext.Provider value={{ updateUserData, allUsers }}>
       {children}
     </UserContext.Provider>
   );

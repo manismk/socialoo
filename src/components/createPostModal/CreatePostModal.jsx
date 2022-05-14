@@ -14,7 +14,7 @@ export const CreatePostModal = () => {
     imageLink: "",
   });
   const { closeModal, createPost } = usePosts();
-  const { userData } = useUser();
+  const { allUsers } = useUser();
 
   const handleImageUploader = (file) => {
     setPostData((prevData) => ({
@@ -45,7 +45,7 @@ export const CreatePostModal = () => {
         </h5>
         <div className="caption--container">
           <img
-            src={userData.profilePictureUrl}
+            src={allUsers?.currentUser.profilePictureUrl}
             alt="Randomuser"
             className="avatar avatar--circle avatar--xs"
           />

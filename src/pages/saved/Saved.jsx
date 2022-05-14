@@ -4,16 +4,16 @@ import { usePosts, useUser } from "../../context";
 
 export const Saved = () => {
   const { posts } = usePosts();
-  const { userData } = useUser();
+  const { allUsers } = useUser();
   const [savedPosts, setSavedPosts] = useState([]);
 
   useEffect(() => {
     setSavedPosts(
       posts.posts.filter((currPost) =>
-        userData.saved?.includes(currPost.postId)
+        allUsers?.currentUser?.saved?.includes(currPost.postId)
       )
     );
-  }, [userData.saved, posts.posts]);
+  }, [allUsers?.currentUser.saved, posts.posts]);
 
   return (
     <div className="container">

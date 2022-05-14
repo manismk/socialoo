@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 export const Profile = () => {
   const { signOut } = useAuth();
-  const { userData } = useUser();
+  const { allUsers } = useUser();
   const { posts } = usePosts();
   const [showEditModal, setEditModal] = useState(false);
   const [currentUserData, setCurrentUserData] = useState({
@@ -15,9 +15,11 @@ export const Profile = () => {
   useEffect(() => {
     setCurrentUserData((prev) => ({
       ...prev,
-      posts: posts.posts.filter((post) => post.uid === userData.uid),
+      posts: posts.posts.filter(
+        (post) => post.uid === allUsers?.currentUser?.uid
+      ),
     }));
-  }, [posts, userData.uid]);
+  }, [posts, allUsers?.currentUser?.uid]);
 
   return (
     <>
@@ -28,19 +30,19 @@ export const Profile = () => {
         </button>
 
         <img
-          src={userData?.profilePictureUrl}
-          alt={`${userData?.firstName} ${userData?.lastName}`}
+          src={allUsers?.currentUser?.profilePictureUrl}
+          alt={`${allUsers?.currentUser?.firstName} ${allUsers?.currentUser?.lastName}`}
           className="avatar avatar--circle avatar--md m-b-1"
         />
 
-        <p className="profile--user--name m-b-1">{`${userData?.firstName} ${userData?.lastName}`}</p>
+        <p className="profile--user--name m-b-1">{`${allUsers?.currentUser?.firstName} ${allUsers?.currentUser?.lastName}`}</p>
         <button className="btn btn--primary" onClick={() => setEditModal(true)}>
           Edit profile
         </button>
-        <p className="profile--bio m-v-1">{userData?.bio}</p>
-        {userData?.portfolioLink?.length > 0 && (
+        <p className="profile--bio m-v-1">{allUsers?.currentUser?.bio}</p>
+        {allUsers?.currentUser?.portfolioLink?.length > 0 && (
           <a
-            href={userData?.portfolioLink}
+            href={allUsers?.currentUser?.portfolioLink}
             className="profile--bio--link primary-color m-b-1"
             target="_blank"
             rel="noreferrer"

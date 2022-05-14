@@ -6,7 +6,7 @@ import { InputTextBox } from "../input/InputTextBox";
 import "./editProfileModal.css";
 
 export const EditProfileModal = ({ closeModal }) => {
-  const { userData, updateUserData } = useUser();
+  const { allUsers, updateUserData } = useUser();
   const [editData, setEditData] = useState({
     firstName: "",
     lastName: "",
@@ -22,17 +22,17 @@ export const EditProfileModal = ({ closeModal }) => {
   });
 
   useEffect(() => {
-    if (userData.firstName !== undefined) {
+    if (allUsers?.currentUser.firstName !== undefined) {
       setEditData((prev) => ({
         ...prev,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        bio: userData.bio,
-        profileImage: userData.profilePictureUrl,
-        portfolioLink: userData.portfolioLink,
+        firstName: allUsers?.currentUser.firstName,
+        lastName: allUsers?.currentUser.lastName,
+        bio: allUsers?.currentUser.bio,
+        profileImage: allUsers?.currentUser.profilePictureUrl,
+        portfolioLink: allUsers?.currentUser.portfolioLink,
       }));
     }
-  }, [userData]);
+  }, [allUsers?.currentUser]);
 
   const editHandler = () => {
     const { firstNameError, lastNameError, bioError, portfolioLinkError } =
