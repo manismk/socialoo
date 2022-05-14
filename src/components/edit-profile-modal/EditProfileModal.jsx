@@ -76,6 +76,14 @@ export const EditProfileModal = ({ closeModal }) => {
     }
   };
 
+  const setEdit = (e, field, fieldError) => {
+    setEditData((prevData) => ({
+      ...prevData,
+      [field]: e.target.value,
+      [fieldError]: "",
+    }));
+  };
+
   return (
     <>
       <div className="modal modal--alert modal--profile ">
@@ -126,13 +134,7 @@ export const EditProfileModal = ({ closeModal }) => {
             error={editData.firstNameError}
             labelName="First Name"
             id="firstName"
-            changeHandler={(e) => {
-              setEditData((prevData) => ({
-                ...prevData,
-                firstName: e.target.value,
-                firstNameError: "",
-              }));
-            }}
+            changeHandler={(e) => setEdit(e, "firstName", "firstNameError")}
             value={editData.firstName}
             type="text"
             placeHolder="John"
@@ -141,13 +143,7 @@ export const EditProfileModal = ({ closeModal }) => {
             error={editData.lastNameError}
             labelName="Last Name"
             id="lastName"
-            changeHandler={(e) => {
-              setEditData((prevData) => ({
-                ...prevData,
-                lastName: e.target.value,
-                lastNameError: "",
-              }));
-            }}
+            changeHandler={(e) => setEdit(e, "lastName", "lastNameError")}
             value={editData.lastName}
             type="text"
             placeHolder="Doe"
@@ -167,13 +163,7 @@ export const EditProfileModal = ({ closeModal }) => {
             className="bio--textarea"
             value={editData.bio}
             placeholder="I am john doe. I work at XXX company"
-            onChange={(e) => {
-              setEditData((prevData) => ({
-                ...prevData,
-                bio: e.target.value,
-                bioError: "",
-              }));
-            }}
+            onChange={(e) => setEdit(e, "bio", "bioError")}
           ></textarea>
           <span className="input--error--message">{editData.bioError}</span>
         </div>
@@ -182,13 +172,9 @@ export const EditProfileModal = ({ closeModal }) => {
           error={editData.portfolioLinkError}
           labelName="PortFolio Link"
           id="portfolio-link"
-          changeHandler={(e) => {
-            setEditData((prevData) => ({
-              ...prevData,
-              portfolioLink: e.target.value,
-              portfolioLinkError: "",
-            }));
-          }}
+          changeHandler={(e) =>
+            setEdit(e, "portfolioLink", "portfolioLinkError")
+          }
           value={editData.portfolioLink}
           type="text"
           placeHolder="https://www.google.com/"
