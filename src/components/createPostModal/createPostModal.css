@@ -58,3 +58,11 @@
     width: 70%;
   }
 }
+
+@media only screen and (max-width: 570px) {
+  .modal--post,
+  .modal--profile {
+    width: 90%;
+    padding: 1rem;
+  }
+}
