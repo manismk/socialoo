@@ -3,23 +3,32 @@ import { EditProfileModal, PostCard } from "../../components/";
 import { Logout } from "@mui/icons-material";
 import { useAuth, usePosts, useUser } from "../../context";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { handleFollow, handleUnfollow } from "../../services";
 
 export const Profile = () => {
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const { allUsers } = useUser();
   const { posts } = usePosts();
   const [showEditModal, setEditModal] = useState(false);
-  const [currentUserData, setCurrentUserData] = useState({
+  const { userId } = useParams();
+  const [currentProfileData, setCurrentProfile] = useState({
     posts: [],
+    currentUser: {},
+    isProfileUserLoggedInUser: false,
+    isLoggedInUserFollowingThisProfile: false,
   });
+
   useEffect(() => {
-    setCurrentUserData((prev) => ({
+    setCurrentProfile((prev) => ({
       ...prev,
-      posts: posts.posts.filter(
-        (post) => post.uid === allUsers?.currentUser?.uid
-      ),
+      posts: posts.posts.filter((post) => post.uid === userId),
+      currentUser: allUsers.users.find((user) => user.uid === userId),
+      isProfileUserLoggedInUser: user.uid === userId,
+      isLoggedInUserFollowingThisProfile:
+        allUsers.currentUser?.following?.includes(userId),
     }));
-  }, [posts, allUsers?.currentUser?.uid]);
+  }, [userId, posts, allUsers, user.uid]);
 
   return (
     <>
@@ -30,19 +39,49 @@ export const Profile = () => {
         </button>
 
         <img
-          src={allUsers?.currentUser?.profilePictureUrl}
-          alt={`${allUsers?.currentUser?.firstName} ${allUsers?.currentUser?.lastName}`}
+          src={currentProfileData.currentUser?.profilePictureUrl}
+          alt={`${currentProfileData?.currentUser?.firstName} ${currentProfileData?.currentUser?.lastName}`}
           className="avatar avatar--circle avatar--md m-b-1"
         />
 
-        <p className="profile--user--name m-b-1">{`${allUsers?.currentUser?.firstName} ${allUsers?.currentUser?.lastName}`}</p>
-        <button className="btn btn--primary" onClick={() => setEditModal(true)}>
-          Edit profile
-        </button>
-        <p className="profile--bio m-v-1">{allUsers?.currentUser?.bio}</p>
-        {allUsers?.currentUser?.portfolioLink?.length > 0 && (
+        <p className="profile--user--name m-b-1">{`${currentProfileData?.currentUser?.firstName} ${currentProfileData?.currentUser?.lastName}`}</p>
+        {currentProfileData.isProfileUserLoggedInUser ? (
+          <button
+            className="btn btn--primary"
+            onClick={() => setEditModal(true)}
+          >
+            Edit profile
+          </button>
+        ) : (
+          <button
+            className="btn btn--primary"
+            onClick={() =>
+              currentProfileData.isLoggedInUserFollowingThisProfile
+                ? handleUnfollow(
+                    allUsers?.currentUser.uid,
+                    allUsers?.currentUser.following,
+                    currentProfileData.currentUser.uid,
+                    currentProfileData.currentUser.followers
+                  )
+                : handleFollow(
+                    allUsers?.currentUser.uid,
+                    allUsers?.currentUser.following,
+                    currentProfileData.currentUser.uid,
+                    currentProfileData.currentUser.followers
+                  )
+            }
+          >
+            {currentProfileData.isLoggedInUserFollowingThisProfile
+              ? "Unfollow"
+              : "Follow"}
+          </button>
+        )}
+        <p className="profile--bio m-v-1">
+          {currentProfileData?.currentUser?.bio}
+        </p>
+        {currentProfileData?.currentUser?.portfolioLink?.length > 0 && (
           <a
-            href={allUsers?.currentUser?.portfolioLink}
+            href={currentProfileData?.currentUser?.portfolioLink}
             className="profile--bio--link primary-color m-b-1"
             target="_blank"
             rel="noreferrer"
@@ -53,16 +92,20 @@ export const Profile = () => {
         <div className="profile--details--container">
           <div className="profile--details--item">
             <p className="profile--details--count">
-              {currentUserData.posts.length}
+              {currentProfileData.posts?.length}
             </p>
             <p className="profile--details--name">Posts</p>
           </div>
           <div className="profile--details--item">
-            <p className="profile--details--count">100</p>
+            <p className="profile--details--count">
+              {currentProfileData.currentUser?.followers?.length}
+            </p>
             <p className="profile--details--name">Followers</p>
           </div>
           <div className="profile--details--item">
-            <p className="profile--details--count">0</p>
+            <p className="profile--details--count">
+              {currentProfileData.currentUser?.following?.length}
+            </p>
             <p className="profile--details--name">Following</p>
           </div>
         </div>
@@ -70,7 +113,7 @@ export const Profile = () => {
       <div className="profile--posts ">
         <h3 className="heading--3 text--center m-t-2 m-b-1">Recent Posts</h3>
         <div className="profile--post--container">
-          {currentUserData.posts.map((post) => (
+          {currentProfileData.posts.map((post) => (
             <PostCard post={post} key={post.postId} />
           ))}
         </div>

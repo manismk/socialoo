@@ -1,6 +1,6 @@
 import { Bookmark, Explore, Home, Person } from "@mui/icons-material";
 import { Link, NavLink } from "react-router-dom";
-import { usePosts } from "../../context";
+import { useAuth, usePosts } from "../../context";
 import "./navbar.css";
 
 const activeLink = ({ isActive }) => ({
@@ -9,6 +9,7 @@ const activeLink = ({ isActive }) => ({
 
 export const Navbar = () => {
   const { openModal } = usePosts();
+  const { user } = useAuth();
 
   return (
     <header className="nav--container">
@@ -33,7 +34,11 @@ export const Navbar = () => {
           <span>Saved</span>
         </NavLink>
 
-        <NavLink style={activeLink} className="nav--item" to="/profile">
+        <NavLink
+          style={activeLink}
+          className="nav--item"
+          to={`/user/${user.uid}`}
+        >
           <Person />
           <span>Profile</span>
         </NavLink>

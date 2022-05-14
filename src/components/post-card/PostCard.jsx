@@ -6,6 +6,7 @@ import {
   FavoriteBorder,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth, useUser } from "../../context";
 import {
   handleFollow,
@@ -54,9 +55,9 @@ export const PostCard = ({ post }) => {
             alt="Randomuser"
             className="avatar avatar--circle avatar--xs"
           />
-          <p className="post--user--name">
+          <Link to={`/user/${post.uid}`} className="post--user--name">
             {postUserData.firstName} {postUserData.lastName}
-          </p>
+          </Link>
         </div>
         {postUserData.isThisPostFromCurrentUser ? (
           <div>
