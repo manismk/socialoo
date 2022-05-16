@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth, useUser } from "../../context";
 import {
+  handleDeletePost,
   handleFollow,
   handleLike,
   handleSave,
@@ -62,7 +63,14 @@ export const PostCard = ({ post }) => {
         {postUserData.isThisPostFromCurrentUser ? (
           <div>
             <button className="btn btn--link">Edit</button>
-            <button className="btn btn--link">Delete</button>
+            <button
+              className="btn btn--link"
+              onClick={() => {
+                handleDeletePost(post.postId, post.imageUrl);
+              }}
+            >
+              Delete
+            </button>
           </div>
         ) : (
           <div>
