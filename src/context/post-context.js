@@ -10,6 +10,8 @@ const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState({
     posts: [],
     isCreatePostModalOpen: false,
+    isFromEdit: false,
+    editData: {},
   });
   const { user } = useAuth();
 
@@ -28,11 +30,24 @@ const PostProvider = ({ children }) => {
     }
   }, [user]);
 
+  const openModalFromEdit = (editData) =>
+    setPosts((prev) => ({
+      ...prev,
+      isCreatePostModalOpen: true,
+      isFromEdit: true,
+      editData,
+    }));
+
   const openModal = () =>
     setPosts((prev) => ({ ...prev, isCreatePostModalOpen: true }));
 
   const closeModal = () =>
-    setPosts((prev) => ({ ...prev, isCreatePostModalOpen: false }));
+    setPosts((prev) => ({
+      ...prev,
+      isCreatePostModalOpen: false,
+      isFromEdit: false,
+      editData: {},
+    }));
 
   const createPostInFirebase = (captionText, imageUrl, newPostId) => {
     db.collection(`posts/`)
@@ -64,7 +79,7 @@ const PostProvider = ({ children }) => {
     if (imageFile !== null) {
       const uploadTask = storage
         .ref()
-        .child(`posts/${newPostId.id}_image.${imageFile.name.split(".")[1]}`)
+        .child(`posts/${newPostId.id}_image.${imageFile.name.split(".").pop()}`)
         .put(imageFile);
 
       uploadTask.on(
@@ -86,7 +101,9 @@ const PostProvider = ({ children }) => {
   };
 
   return (
-    <PostContext.Provider value={{ posts, openModal, closeModal, createPost }}>
+    <PostContext.Provider
+      value={{ posts, openModal, closeModal, createPost, openModalFromEdit }}
+    >
       {children}
     </PostContext.Provider>
   );

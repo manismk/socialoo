@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth, useUser } from "../../context";
+import { useAuth, usePosts, useUser } from "../../context";
 import {
   handleDeletePost,
   handleFollow,
@@ -20,6 +20,7 @@ import "./postcard.css";
 export const PostCard = ({ post }) => {
   const { allUsers } = useUser();
   const { user } = useAuth();
+  const { openModalFromEdit } = usePosts();
   const [postUserData, setPostUserData] = useState({
     profilePictureUrl: "",
     firstName: "",
@@ -62,7 +63,12 @@ export const PostCard = ({ post }) => {
         </div>
         {postUserData.isThisPostFromCurrentUser ? (
           <div>
-            <button className="btn btn--link">Edit</button>
+            <button
+              className="btn btn--link"
+              onClick={() => openModalFromEdit(post)}
+            >
+              Edit
+            </button>
             <button
               className="btn btn--link"
               onClick={() => {

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { usePosts, useUser } from "../../context";
+import { handleEditPost } from "../../services";
 import "./createPostModal.css";
 
 const fileTypes = ["JPEG", "PNG", "JPG"];
@@ -13,8 +14,21 @@ export const CreatePostModal = () => {
     imageFileError: "",
     imageLink: "",
   });
-  const { closeModal, createPost } = usePosts();
+  const { closeModal, createPost, posts } = usePosts();
   const { allUsers } = useUser();
+
+  useEffect(() => {
+    if (posts.editData.imageUrl === null) {
+      setPostData((prev) => ({ ...prev, caption: posts.editData.caption }));
+    } else {
+      setPostData((prev) => ({
+        ...prev,
+        caption: posts.editData.caption,
+        imageLink: posts.editData.imageUrl,
+        imageFile: {},
+      }));
+    }
+  }, []);
 
   const handleImageUploader = (file) => {
     setPostData((prevData) => ({
@@ -27,7 +41,16 @@ export const CreatePostModal = () => {
 
   const clickHandler = () => {
     if (postData.caption.length && postData.imageFileError.length === 0) {
-      createPost(postData.caption, postData.imageFile);
+      if (posts.isFromEdit) {
+        handleEditPost(
+          posts.editData,
+          postData.caption,
+          postData.imageLink,
+          postData.imageFile
+        );
+      } else {
+        createPost(postData.caption, postData.imageFile);
+      }
       closeModal();
     }
     if (postData.caption.length === 0) {
@@ -41,7 +64,7 @@ export const CreatePostModal = () => {
     <>
       <div className="modal modal--alert modal--post ">
         <h5 className="modal--heading heading--4 text--center">
-          Create New Post
+          {posts.isFromEdit ? "Edit" : "Create New"} Post
         </h5>
         <div className="caption--container">
           <img
@@ -114,8 +137,9 @@ export const CreatePostModal = () => {
           <button href="#" className="btn btn--primary " onClick={closeModal}>
             Cancel
           </button>
+
           <button href="#" className="btn btn--primary " onClick={clickHandler}>
-            Post
+            {posts.isFromEdit ? "Update" : "Post"}
           </button>
         </div>
       </div>
