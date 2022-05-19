@@ -1,0 +1,57 @@
+.modal {
+  position: fixed;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.modal--actions {
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.bio--textarea {
+  border: 2px solid var(--black);
+  width: 100%;
+  border-radius: 5px;
+  height: 10vh;
+  resize: none;
+  padding: 0.8rem 1rem;
+  font-family: inherit;
+}
+
+.input--error .bio--textarea {
+  border-color: var(--danger-dark);
+}
+
+.edit--img--badge {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.badge--button {
+  bottom: 0.5rem;
+  right: 0.8rem;
+  background-color: var(--secondary--light);
+  border: none;
+  cursor: pointer;
+}
+
+svg.badge--button {
+  font-size: 1rem;
+}
+
+.upload--button {
+  display: none;
+}
+
+.avatar--md {
+  object-fit: cover;
+  height: 4rem;
+}
