@@ -4,9 +4,11 @@ import {
   ChatBubbleOutline,
   Favorite,
   FavoriteBorder,
+  Share,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useAuth, usePosts, useUser } from "../../context";
 import {
   handleDeletePost,
@@ -136,6 +138,18 @@ export const PostCard = ({ post }) => {
             >
               <ChatBubbleOutline />
               <span>Comment</span>
+            </button>
+            <button
+              className="btn icon--btn post--actions"
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `${window.location.origin}/post/${post.postId}`
+                );
+                toast.success("Link copied to clipboard");
+              }}
+            >
+              <Share />
+              <span>Share</span>
             </button>
           </div>
           <button

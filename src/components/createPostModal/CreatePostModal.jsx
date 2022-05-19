@@ -18,15 +18,17 @@ export const CreatePostModal = () => {
   const { allUsers } = useUser();
 
   useEffect(() => {
-    if (posts.editData.imageUrl === null) {
-      setPostData((prev) => ({ ...prev, caption: posts.editData.caption }));
-    } else {
-      setPostData((prev) => ({
-        ...prev,
-        caption: posts.editData.caption,
-        imageLink: posts.editData.imageUrl,
-        imageFile: {},
-      }));
+    if (posts.isFromEdit) {
+      if (posts.editData.imageUrl === null) {
+        setPostData((prev) => ({ ...prev, caption: posts.editData.caption }));
+      } else {
+        setPostData((prev) => ({
+          ...prev,
+          caption: posts.editData.caption,
+          imageLink: posts.editData.imageUrl,
+          imageFile: {},
+        }));
+      }
     }
   }, []);
 
@@ -104,7 +106,7 @@ export const CreatePostModal = () => {
             {postData.imageFileError}
           </p>
         )}
-        {postData.imageFile !== null && (
+        {postData.imageLink !== null && postData.imageLink !== "" && (
           <div className="post--modal--image--container">
             <img className="img--res" src={postData.imageLink} alt="" />
           </div>
@@ -134,13 +136,23 @@ export const CreatePostModal = () => {
               }}
             />
           </div>
-          <button href="#" className="btn btn--primary " onClick={closeModal}>
-            Cancel
-          </button>
+          <div>
+            <button
+              href="#"
+              className="btn btn--primary m-r-1"
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
 
-          <button href="#" className="btn btn--primary " onClick={clickHandler}>
-            {posts.isFromEdit ? "Update" : "Post"}
-          </button>
+            <button
+              href="#"
+              className="btn btn--primary "
+              onClick={clickHandler}
+            >
+              {posts.isFromEdit ? "Update" : "Post"}
+            </button>
+          </div>
         </div>
       </div>
       <div className="overlay" onClick={closeModal}></div>

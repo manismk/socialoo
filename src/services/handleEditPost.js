@@ -23,10 +23,9 @@ const updatePostInFirebase = (captionText, imageUrl, postId) => {
 
 export const handleEditPost = (post, caption, imageUrl, imageFile) => {
   if (imageUrl !== "" && post.imageUrl !== imageUrl) {
-    console.log("image changed");
     const uploadTask = storage
       .ref()
-      .child(`posts/${post.id}_image.${imageFile.name.split(".").pop()}`)
+      .child(`posts/${post.postId}_image.${imageFile.name.split(".").pop()}`)
       .put(imageFile);
 
     uploadTask.on(
