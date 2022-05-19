@@ -1,8 +1,8 @@
-import { PostCard, SuggestionCard } from "../../components/";
+import { Loader, PostCard, SuggestionCard } from "../../components/";
 import { usePosts } from "../../context";
 
 export const Explore = () => {
-  const { posts } = usePosts();
+  const { posts, postLoading } = usePosts();
 
   return (
     <div className="container">
@@ -14,6 +14,7 @@ export const Explore = () => {
       <div className="suggestion--container">
         <SuggestionCard />
       </div>
+      {postLoading && <Loader />}
     </div>
   );
 };

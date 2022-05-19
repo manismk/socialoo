@@ -13,9 +13,11 @@ const PostProvider = ({ children }) => {
     isFromEdit: false,
     editData: {},
   });
+  const [postLoading, setPostLoading] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
+    setPostLoading(true);
     try {
       db.collection(`posts`).onSnapshot((querySnapshot) => {
         setPosts((prev) => ({
@@ -24,9 +26,11 @@ const PostProvider = ({ children }) => {
             ...post.data(),
           })),
         }));
+        setPostLoading(false);
       });
     } catch (e) {
       console.error("Error in getting posts data", e);
+      setPostLoading(false);
     }
   }, [user]);
 
@@ -102,7 +106,14 @@ const PostProvider = ({ children }) => {
 
   return (
     <PostContext.Provider
-      value={{ posts, openModal, closeModal, createPost, openModalFromEdit }}
+      value={{
+        posts,
+        openModal,
+        closeModal,
+        createPost,
+        openModalFromEdit,
+        postLoading,
+      }}
     >
       {children}
     </PostContext.Provider>

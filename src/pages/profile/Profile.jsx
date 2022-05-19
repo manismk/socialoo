@@ -1,5 +1,5 @@
 import "./profile.css";
-import { EditProfileModal, PostCard } from "../../components/";
+import { EditProfileModal, Loader, PostCard } from "../../components/";
 import { Logout } from "@mui/icons-material";
 import { useAuth, usePosts, useUser } from "../../context";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import { handleFollow, handleUnfollow } from "../../services";
 export const Profile = () => {
   const { user, signOut } = useAuth();
   const { allUsers } = useUser();
-  const { posts } = usePosts();
+  const { posts, postLoading } = usePosts();
   const [showEditModal, setEditModal] = useState(false);
   const { userId } = useParams();
   const [currentProfileData, setCurrentProfile] = useState({
@@ -121,6 +121,7 @@ export const Profile = () => {
       {showEditModal && (
         <EditProfileModal closeModal={() => setEditModal(false)} />
       )}
+      {postLoading && <Loader />}
     </>
   );
 };

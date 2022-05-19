@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { CommentContainer, PostCard } from "../../components";
+import { CommentContainer, Loader, PostCard } from "../../components";
 import { usePosts } from "../../context";
 import "./post.css";
 
 export const Post = () => {
   const { postId } = useParams();
-  const { posts } = usePosts();
+  const { posts, postLoading } = usePosts();
   const [currentPost, setCurrentPost] = useState(null);
 
   useEffect(() => {
@@ -22,6 +22,7 @@ export const Post = () => {
       ) : (
         ""
       )}
+      {postLoading && <Loader />}
     </>
   );
 };

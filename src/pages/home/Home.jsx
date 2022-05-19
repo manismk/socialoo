@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { PostCard, SuggestionCard } from "../../components/";
+import { Loader, PostCard, SuggestionCard } from "../../components/";
 import { usePosts, useUser } from "../../context";
 import "./home.css";
 
 export const Home = () => {
-  const { posts } = usePosts();
+  const { posts, postLoading } = usePosts();
   const { allUsers } = useUser();
   const [followersPost, setFollowersPost] = useState([]);
   useEffect(() => {
@@ -31,6 +31,7 @@ export const Home = () => {
       <div className="suggestion--container">
         <SuggestionCard />
       </div>
+      {postLoading && <Loader />}
     </div>
   );
 };

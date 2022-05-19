@@ -10,3 +10,4 @@ export { CommentContainer } from "./comment-card/CommentContainer";
 export { CommentInput } from "./comment-card/CommentInput";
 export { Comment } from "./comment-card/Comment";
 export { ReplyComment } from "./comment-card/ReplyComment";
+export { Loader } from "./loader/Loader";

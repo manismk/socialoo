@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { PostCard, SuggestionCard } from "../../components";
+import { Loader, PostCard, SuggestionCard } from "../../components";
 import { usePosts, useUser } from "../../context";
 
 export const Saved = () => {
-  const { posts } = usePosts();
+  const { posts, postLoading } = usePosts();
   const { allUsers } = useUser();
   const [savedPosts, setSavedPosts] = useState([]);
 
@@ -13,7 +13,7 @@ export const Saved = () => {
         allUsers?.currentUser?.saved?.includes(currPost.postId)
       )
     );
-  }, [allUsers?.currentUser.saved, posts.posts]);
+  }, [allUsers?.currentUser?.saved, posts.posts]);
 
   return (
     <div className="container">
@@ -31,6 +31,7 @@ export const Saved = () => {
       <div className="suggestion--container">
         <SuggestionCard />
       </div>
+      {postLoading && <Loader />}
     </div>
   );
 };
