@@ -1,0 +1,106 @@
+.post--card {
+  min-width: 30rem;
+  max-width: 32rem;
+  background-color: var(--secondary--light);
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.post--header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--black);
+  padding: 0.5rem 1rem;
+  gap: 1rem;
+}
+
+.post--header div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.post--user--name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  color: inherit;
+  text-decoration: none;
+}
+
+.btn--link {
+  padding: 0.2rem;
+  border: none;
+  color: var(--primary--color);
+  background-color: transparent;
+  font-weight: 600;
+}
+
+.post--description {
+  padding: 1rem;
+  border-bottom: 1px solid var(--black);
+  word-break: break-word;
+}
+
+.post--action--container,
+.post--action--container div {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  gap: 1rem;
+  align-items: center;
+}
+
+.post--action--container div {
+  padding: 0;
+}
+
+.post--actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.post--actions span {
+  font-size: 0.7rem;
+}
+
+.post--actions:hover,
+.post--actions.active {
+  color: var(--primary--color);
+}
+
+.post--status {
+  display: flex;
+  padding: 0 1rem 1rem 1rem;
+  align-items: center;
+}
+
+.post--likes {
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-right: solid 1px var(--black);
+  padding-right: 0.5rem;
+}
+
+.post--time {
+  font-size: 0.8rem;
+  font-style: italic;
+  padding-left: 0.2rem;
+}
+
+.avatar--xs {
+  height: 3rem;
+  object-fit: cover;
+}
+
+@media only screen and (max-width: 570px) {
+  .post--card {
+    min-width: fit-content;
+  }
+}
