@@ -33,10 +33,15 @@ export const Profile = () => {
   return (
     <>
       <div className="profile--container">
-        <button className="btn icon--btn btn--logout" onClick={() => signOut()}>
-          <Logout />
-          <span>Logout</span>
-        </button>
+        {currentProfileData.isProfileUserLoggedInUser && (
+          <button
+            className="btn icon--btn btn--logout"
+            onClick={() => signOut()}
+          >
+            <Logout />
+            <span>Logout</span>
+          </button>
+        )}
 
         <img
           src={currentProfileData.currentUser?.profilePictureUrl}
