@@ -5,11 +5,14 @@
   --primary--color: #900c3f;
   --primary--color--light: #ffc300;
   --text-color: #06113c;
+  --secondary--color: #d9d9d9;
+  --secondary--light: #f8fafc;
 }
 
 body {
   font-family: "inter", sans-serif;
   background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .App {
@@ -29,7 +32,6 @@ body {
 
 .main-container {
   margin: 1rem;
-  margin-left: 13rem;
   margin-bottom: 0;
   padding-bottom: 2rem;
 }
@@ -45,34 +47,33 @@ body {
   );
 }
 .btn--primary {
+  background-image: linear-gradient(
+    to right,
+    #c70039,
+    #e0432e,
+    #f26f1f,
+    #fd9908,
+    #ffc300
+  );
   transition: 0.5s;
   background-size: 200% auto;
-  box-shadow: 0 0 20px #eee;
   border: none;
+  color: var(--white);
 }
 
 .btn--primary:hover {
-  background-position: right center; /* change the direction of the change here */
-  color: #fff;
+  background-position: right center;
   text-decoration: none;
+  color: var(--white);
+  font-weight: 600;
 }
 
 .primary-color {
   color: var(--primary--color);
 }
 
-/* @media only screen and (max-width: 600px) {
-  .main-container {
-    margin: 1rem;
-    padding-bottom: 5rem;
-  }
-} */
 @media only screen and (max-width: 450px) {
   .Toastify__toast-container .Toastify__toast {
     margin: 1rem;
   }
-  /* .main-container {
-    margin: 1rem;
-    padding-bottom: 5rem;
-  } */
 }
