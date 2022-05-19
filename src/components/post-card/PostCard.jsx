@@ -6,7 +6,7 @@ import {
   FavoriteBorder,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth, usePosts, useUser } from "../../context";
 import {
   handleDeletePost,
@@ -21,6 +21,7 @@ export const PostCard = ({ post }) => {
   const { allUsers } = useUser();
   const { user } = useAuth();
   const { openModalFromEdit } = usePosts();
+  const navigate = useNavigate();
   const [postUserData, setPostUserData] = useState({
     profilePictureUrl: "",
     firstName: "",
@@ -129,7 +130,10 @@ export const PostCard = ({ post }) => {
               {postUserData.isLiked ? <Favorite /> : <FavoriteBorder />}
               <span>{postUserData.isLiked ? "Liked" : "Like"}</span>
             </button>
-            <button className="btn icon--btn post--actions">
+            <button
+              className="btn icon--btn post--actions"
+              onClick={() => navigate(`/post/${post.postId}`)}
+            >
               <ChatBubbleOutline />
               <span>Comment</span>
             </button>

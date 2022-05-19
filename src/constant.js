@@ -5,4 +5,5 @@ export const routes = {
   PROFILE_PAGE: "/user/:userId",
   SAVED_PAGE: "/saved",
   EXPLORE_PAGE: "/explore",
+  POST_PAGE: "/post/:postId",
 };

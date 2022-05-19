@@ -1,0 +1,59 @@
+.container--post {
+  gap: 0;
+}
+
+.container--post .post--card {
+  flex-grow: 1;
+}
+
+.comment--container {
+  max-width: 32rem;
+  margin-top: 1rem;
+  background-color: var(--secondary--light);
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.comment--input {
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.container--post .input--container {
+  margin-top: 1rem;
+}
+
+.user--comment--container {
+  border-top: 1px solid;
+}
+
+.user--comment--wrapper {
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  gap: 0.5rem;
+  padding: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.user--comment--wrapper.user--reply {
+  margin-left: 3rem;
+}
+
+.user--name--comment-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.user--name--comment-container .comment--name {
+  text-decoration: none;
+  color: inherit;
+}
+@media only screen and (max-width: 570px) {
+  .comment--input {
+    min-width: fit-content;
+  }
+}

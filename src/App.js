@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { CreatePostModal, RequiresAuth } from "./components";
 import { routes } from "./constant";
-import { Explore, Home, Login, Profile, Saved, SignUp } from "./pages";
+import { Explore, Home, Login, Post, Profile, Saved, SignUp } from "./pages";
 import "react-toastify/dist/ReactToastify.css";
 import { usePosts } from "./context";
 
@@ -19,6 +19,7 @@ function App() {
           <Route path={routes.PROFILE_PAGE} element={<Profile />} />
           <Route path={routes.SAVED_PAGE} element={<Saved />} />
           <Route path={routes.EXPLORE_PAGE} element={<Explore />} />
+          <Route path={routes.POST_PAGE} element={<Post />} />
         </Route>
       </Routes>
       <ToastContainer

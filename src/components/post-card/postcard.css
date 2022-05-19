@@ -3,6 +3,7 @@
   max-width: 32rem;
   background-color: var(--secondary--light);
   border-radius: 5px;
+  margin: 0 auto;
 }
 
 .post--header {
