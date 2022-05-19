@@ -1,12 +1,13 @@
 import { CameraAlt } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useUser } from "../../context";
+import { handleEditProfile } from "../../services";
 import { handleEditProfileValidation } from "../../utils";
 import { InputTextBox } from "../input/InputTextBox";
 import "./editProfileModal.css";
 
 export const EditProfileModal = ({ closeModal }) => {
-  const { allUsers, updateUserData } = useUser();
+  const { allUsers } = useUser();
   const [editData, setEditData] = useState({
     firstName: "",
     lastName: "",
@@ -65,13 +66,14 @@ export const EditProfileModal = ({ closeModal }) => {
       editData.profileImageError.length === 0
     ) {
       closeModal();
-      updateUserData(
+      handleEditProfile(
         editData.firstName,
         editData.lastName,
         editData.bio,
         editData.portfolioLink,
         editData.profileImage,
-        editData.raw
+        editData.raw,
+        allUsers?.currentUser
       );
     }
   };

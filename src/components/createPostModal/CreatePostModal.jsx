@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { usePosts, useUser } from "../../context";
-import { handleEditPost } from "../../services";
+import { handleCreatePost, handleEditPost } from "../../services";
 import "./createPostModal.css";
 
 const fileTypes = ["JPEG", "PNG", "JPG"];
@@ -14,7 +14,7 @@ export const CreatePostModal = () => {
     imageFileError: "",
     imageLink: "",
   });
-  const { closeModal, createPost, posts } = usePosts();
+  const { closeModal, posts } = usePosts();
   const { allUsers } = useUser();
 
   useEffect(() => {
@@ -51,7 +51,11 @@ export const CreatePostModal = () => {
           postData.imageFile
         );
       } else {
-        createPost(postData.caption, postData.imageFile);
+        handleCreatePost(
+          postData.caption,
+          postData.imageFile,
+          allUsers?.currentUser?.uid
+        );
       }
       closeModal();
     }

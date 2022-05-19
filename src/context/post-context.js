@@ -1,7 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { db, storage } from "../firebase";
-import firebase from "firebase/compat/app";
-import { toast } from "react-toastify";
+import { db } from "../firebase";
 import { useAuth } from "./auth-context";
 
 const PostContext = createContext();
@@ -53,64 +51,12 @@ const PostProvider = ({ children }) => {
       editData: {},
     }));
 
-  const createPostInFirebase = (captionText, imageUrl, newPostId) => {
-    db.collection(`posts/`)
-      .doc(newPostId.id)
-      .set(
-        {
-          caption: captionText,
-          imageUrl,
-          uid: user.uid,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          likedIds: [],
-          comments: [],
-          postId: newPostId.id,
-        },
-        { merge: true }
-      )
-      .then(() => {
-        toast.success("Posted successfully");
-      })
-      .catch((error) => {
-        toast.error("Something Went wrong");
-        console.log(error);
-      });
-  };
-
-  const createPost = (captionText, imageFile) => {
-    const newPostId = db.collection(`posts/`).doc();
-
-    if (imageFile !== null) {
-      const uploadTask = storage
-        .ref()
-        .child(`posts/${newPostId.id}_image.${imageFile.name.split(".").pop()}`)
-        .put(imageFile);
-
-      uploadTask.on(
-        firebase.storage.TaskEvent.STATE_CHANGED,
-        () => {},
-        (error) => {
-          toast.error("Something Went wrong");
-          console.log("Something went wrong in uploading post image", error);
-        },
-        () => {
-          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            createPostInFirebase(captionText, downloadURL, newPostId);
-          });
-        }
-      );
-    } else {
-      createPostInFirebase(captionText, imageFile, newPostId);
-    }
-  };
-
   return (
     <PostContext.Provider
       value={{
         posts,
         openModal,
         closeModal,
-        createPost,
         openModalFromEdit,
         postLoading,
       }}

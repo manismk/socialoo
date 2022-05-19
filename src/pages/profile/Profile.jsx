@@ -111,12 +111,22 @@ export const Profile = () => {
         </div>
       </div>
       <div className="profile--posts ">
-        <h3 className="heading--3 text--center m-t-2 m-b-1">Recent Posts</h3>
-        <div className="profile--post--container">
-          {currentProfileData.posts.map((post) => (
-            <PostCard post={post} key={post.postId} />
-          ))}
-        </div>
+        {currentProfileData.posts?.length > 0 ? (
+          <>
+            <h3 className="heading--3 text--center m-t-2 m-b-1">
+              Recent Posts
+            </h3>
+            <div className="profile--post--container">
+              {currentProfileData.posts.map((post) => (
+                <PostCard post={post} key={post.postId} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <p className="text--center para--md text--bold">
+            No posts posted by the user
+          </p>
+        )}
       </div>
       {showEditModal && (
         <EditProfileModal closeModal={() => setEditModal(false)} />

@@ -32,74 +32,8 @@ const UserProvider = ({ children }) => {
     }));
   }, [allUsers.users, user.uid]);
 
-  const updateProfileDataInFirebase = (
-    firstName,
-    lastName,
-    bio,
-    portfolioLink,
-    profilePictureUrl
-  ) => {
-    try {
-      db.collection(`users/`)
-        .doc(user.uid)
-        .set(
-          { firstName, lastName, bio, portfolioLink, profilePictureUrl },
-          { merge: true }
-        );
-      toast.success("Profile updated successfully");
-    } catch (e) {
-      console.log("Error in Updating data in firebase", e);
-    }
-  };
-
-  const updateUserData = (
-    firstName,
-    lastName,
-    bio,
-    portfolioLink,
-    profileImage,
-    rawData
-  ) => {
-    if (profileImage !== allUsers?.currentUser.profilePictureUrl) {
-      const uploadTask = storage
-        .ref()
-        .child(`users/${user.uid}_profile.${rawData.name.split(".")[1]}`)
-        .put(rawData);
-
-      uploadTask.on(
-        firebase.storage.TaskEvent.STATE_CHANGED,
-        () => {},
-        (error) => {
-          toast.error("Something Went wrong");
-          console.log("Something went wrong in uploading image", error);
-        },
-        () => {
-          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            updateProfileDataInFirebase(
-              firstName,
-              lastName,
-              bio,
-              portfolioLink,
-              downloadURL
-            );
-          });
-        }
-      );
-    } else {
-      updateProfileDataInFirebase(
-        firstName,
-        lastName,
-        bio,
-        portfolioLink,
-        profileImage
-      );
-    }
-  };
-
   return (
-    <UserContext.Provider value={{ updateUserData, allUsers }}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={{ allUsers }}>{children}</UserContext.Provider>
   );
 };
 

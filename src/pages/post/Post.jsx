@@ -20,7 +20,7 @@ export const Post = () => {
           <CommentContainer post={currentPost} />
         </div>
       ) : (
-        ""
+        <p className="text--center para--md text--bold">No posts found</p>
       )}
       {postLoading && <Loader />}
     </>

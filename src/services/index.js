@@ -6,3 +6,5 @@ export { handleDeletePost } from "./handleDeletePost";
 export { handleEditPost } from "./handleEditPost";
 export { handleComment } from "./handleComment";
 export { handleReply } from "./handleReply";
+export { handleCreatePost } from "./handleCreatePost";
+export { handleEditProfile } from "./handleEditProfile";
