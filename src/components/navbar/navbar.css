@@ -1,0 +1,68 @@
+.nav--container {
+  background-color: var(--secondary--color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  background-image: linear-gradient(
+    to right top,
+    #c70039,
+    #e0432e,
+    #f26f1f,
+    #fd9908,
+    #ffc300
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2rem;
+  font-family: "Pacifico", cursive;
+  font-weight: 700;
+  transition: 0.5s;
+}
+
+.logo a {
+  font-family: "Pacifico", cursive;
+}
+
+.nav--container .btn {
+  margin-left: auto;
+  margin-right: 2rem;
+}
+
+.navbar--action--container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav--item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nav--item:hover {
+  color: var(--primary--color);
+}
+
+@media only screen and (max-width: 570px) {
+  .nav--container .btn {
+    margin-right: 0rem;
+  }
+
+  .navbar--action--container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: var(--secondary--color);
+    justify-content: space-between;
+    right: 0;
+    padding: 0.5rem 1rem;
+  }
+}
