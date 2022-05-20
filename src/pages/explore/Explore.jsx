@@ -1,13 +1,15 @@
-import { Loader, PostCard, SuggestionCard } from "../../components/";
-import { usePosts } from "../../context";
+import { Filter, Loader, PostCard, SuggestionCard } from "../../components/";
+import { useFilter, usePosts } from "../../context";
 
 export const Explore = () => {
-  const { posts, postLoading } = usePosts();
+  const { postLoading } = usePosts();
+  const { filterState } = useFilter();
 
   return (
     <div className="container">
       <div className="post--container">
-        {posts.posts.map((post) => {
+        <Filter />
+        {filterState.filteredPosts.map((post) => {
           return <PostCard post={post} key={post.postId} />;
         })}
       </div>
