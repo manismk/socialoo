@@ -16,8 +16,8 @@ import {
   handleLike,
   handleSave,
   handleUnfollow,
-} from "../../services";
-import "./postcard.css";
+} from "../../service";
+import "./postCard.css";
 
 export const PostCard = ({ post }) => {
   const { allUsers } = useUser();

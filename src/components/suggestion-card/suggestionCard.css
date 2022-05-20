@@ -1,0 +1,26 @@
+.suggestion--card {
+  min-width: 15rem;
+  padding: 0 1rem;
+  border-radius: 5px;
+}
+
+.suggestion--container {
+  padding: 1rem 0;
+  background-color: var(--secondary--light);
+  align-self: flex-start;
+}
+
+.suggestion--item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 1rem 0;
+}
+
+.suggestion--item .suggestion--follow {
+  margin-left: auto;
+}
+
+.suggestion--item .post--user--name {
+  font-size: 1rem;
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { usePosts, useUser } from "../../context";
-import { handleCreatePost, handleEditPost } from "../../services";
+import { handleCreatePost, handleEditPost } from "../../service";
 import "./createPostModal.css";
 
 const fileTypes = ["JPEG", "PNG", "JPG"];
