@@ -1,27 +1,32 @@
 import { useEffect, useState } from "react";
-import { Loader, PostCard, SuggestionCard } from "../../components/";
-import { usePosts, useUser } from "../../context";
+import { Filter, Loader, PostCard, SuggestionCard } from "../../components/";
+import { useFilter, usePosts, useUser } from "../../context";
 import "./home.css";
 
 export const Home = () => {
-  const { posts, postLoading } = usePosts();
+  const { postLoading } = usePosts();
   const { allUsers } = useUser();
+  const { filterState } = useFilter();
+
   const [followersPost, setFollowersPost] = useState([]);
   useEffect(() => {
     setFollowersPost(
-      posts.posts.filter((post) =>
+      filterState.filteredPosts.filter((post) =>
         allUsers?.currentUser?.following?.includes(post.uid)
       )
     );
-  }, [posts, allUsers.currentUser]);
+  }, [filterState.filteredPosts, allUsers.currentUser]);
 
   return (
     <div className="container">
       <div className="post--container">
         {followersPost.length > 0 ? (
-          followersPost.map((post) => {
-            return <PostCard post={post} key={post.postId} />;
-          })
+          <>
+            <Filter />
+            {followersPost.map((post) => {
+              return <PostCard post={post} key={post.postId} />;
+            })}
+          </>
         ) : (
           <p className="text--center para--md text--bold">
             No post from following users.

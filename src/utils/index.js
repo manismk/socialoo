@@ -4,3 +4,4 @@ export { handleLoginValidation } from "./handleLoginValidation";
 export { handleSignUpValidation } from "./handleSignUpValidation";
 export { validateURL } from "./validateURL";
 export { handleEditProfileValidation } from "./handleEditProfileValidation";
+export { getSortedPosts } from "./getSortedPosts";
