@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth, useUser } from "../../context";
-import { handleFollow } from "../../services";
+import { handleFollow } from "../../service";
 import "./suggestionCard.css";
 
 export const SuggestionCard = () => {

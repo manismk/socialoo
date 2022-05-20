@@ -4,7 +4,7 @@ import { Logout } from "@mui/icons-material";
 import { useAuth, usePosts, useUser } from "../../context";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { handleFollow, handleUnfollow } from "../../services";
+import { handleFollow, handleUnfollow } from "../../service";
 
 export const Profile = () => {
   const { user, signOut } = useAuth();

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { InputTextBox } from "../";
 import { useUser } from "../../context";
-import { handleComment, handleReply } from "../../services";
+import { handleComment, handleReply } from "../../service";
 
 export const CommentInput = ({ from, fromObj }) => {
   const { allUsers } = useUser();

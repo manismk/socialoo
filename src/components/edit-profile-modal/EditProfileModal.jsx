@@ -1,7 +1,7 @@
 import { CameraAlt } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useUser } from "../../context";
-import { handleEditProfile } from "../../services";
+import { handleEditProfile } from "../../service";
 import { handleEditProfileValidation } from "../../utils";
 import { InputTextBox } from "../input/InputTextBox";
 import "./editProfileModal.css";
