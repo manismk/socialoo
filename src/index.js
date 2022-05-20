@@ -3,12 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import {
-  AuthProvider,
-  FilterProvider,
-  PostProvider,
-  UserProvider,
-} from "./context";
+import { AuthProvider, PostProvider, UserProvider } from "./context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,9 +12,7 @@ root.render(
       <AuthProvider>
         <UserProvider>
           <PostProvider>
-            <FilterProvider>
-              <App />
-            </FilterProvider>
+            <App />
           </PostProvider>
         </UserProvider>
       </AuthProvider>
