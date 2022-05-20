@@ -98,9 +98,3 @@
   height: 3rem;
   object-fit: cover;
 }
-/* 
-@media only screen and (max-width: 570px) {
-  .post--card {
-    min-width: fit-content;
-  }
-} */

@@ -14,9 +14,3 @@
   align-self: flex-start;
   flex-grow: 1;
 }
-
-@media only screen and (max-width: 900px) {
-  .post--container {
-    flex-grow: unset;
-  }
-}

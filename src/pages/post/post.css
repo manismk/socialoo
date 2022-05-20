@@ -7,7 +7,7 @@
 }
 
 .comment--container {
-  max-width: 32rem;
+  max-width: 30rem;
   margin-top: 1rem;
   background-color: var(--secondary--light);
   display: grid;
