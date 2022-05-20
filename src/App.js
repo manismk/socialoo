@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   const { posts } = usePosts();
   return (
-    <div className="container--100">
+    <div className="App container--100">
       <Routes>
         <Route path={routes.LOGIN_PAGE} element={<Login />} />
         <Route path={routes.SIGNUP_PAGE} element={<SignUp />} />

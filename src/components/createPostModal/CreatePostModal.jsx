@@ -73,11 +73,6 @@ export const CreatePostModal = () => {
           {posts.isFromEdit ? "Edit" : "Create New"} Post
         </h5>
         <div className="caption--container">
-          <img
-            src={allUsers?.currentUser.profilePictureUrl}
-            alt=""
-            className="avatar avatar--circle avatar--xs"
-          />
           <div
             className={`input--container input--${
               postData.captionError.length ? "error" : "standard"

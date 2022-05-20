@@ -1,9 +1,9 @@
 .post--card {
-  min-width: 30rem;
-  max-width: 32rem;
+  max-width: 30rem;
   background-color: var(--secondary--light);
   border-radius: 5px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .post--header {
@@ -98,9 +98,9 @@
   height: 3rem;
   object-fit: cover;
 }
-
+/* 
 @media only screen and (max-width: 570px) {
   .post--card {
     min-width: fit-content;
   }
-}
+} */
