@@ -205,7 +205,7 @@ export const PostCard = ({ post }) => {
             {post.comments?.length}{" "}
             {`Comment${post.comments?.length > 1 ? "s" : ""}`}
           </p>
-          <p className="post--time">{getPostTime(post.createdAt.toDate())}</p>
+          <p className="post--time">{getPostTime(post?.createdAt?.toDate())}</p>
         </div>
       </div>
     </div>
