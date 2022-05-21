@@ -81,11 +81,12 @@
   align-items: center;
 }
 
-.post--likes {
+.post--likes,
+.post--comments {
   font-weight: 500;
   font-size: 0.9rem;
   border-right: solid 1px var(--black);
-  padding-right: 0.5rem;
+  padding: 0 0.3rem;
 }
 
 .post--time {

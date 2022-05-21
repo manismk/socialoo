@@ -5,3 +5,4 @@ export { handleSignUpValidation } from "./handleSignUpValidation";
 export { validateURL } from "./validateURL";
 export { handleEditProfileValidation } from "./handleEditProfileValidation";
 export { getSortedPosts } from "./getSortedPosts";
+export { getPostTime } from "./getPostTime";

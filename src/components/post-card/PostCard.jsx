@@ -17,6 +17,7 @@ import {
   handleSave,
   handleUnfollow,
 } from "../../service";
+import { getPostTime } from "../../utils";
 import "./postCard.css";
 
 export const PostCard = ({ post }) => {
@@ -111,6 +112,7 @@ export const PostCard = ({ post }) => {
           <img className="img--res" src={post.imageUrl} alt="sample " />
         </div>
       )}
+
       <div className="post--description">{post.caption}</div>
       <div className="post--footer">
         <div className="post--action--container">
@@ -171,8 +173,15 @@ export const PostCard = ({ post }) => {
           </button>
         </div>
         <div className="post--status">
-          <p className="post--likes">{post.likedIds?.length} Likes</p>
-          <p className="post--time">19 Hours ago</p>
+          <p className="post--likes">
+            {post.likedIds?.length}{" "}
+            {`Like${post.likedIds?.length > 1 ? "s" : ""}`}
+          </p>
+          <p className="post--comments">
+            {post.comments?.length}{" "}
+            {`Comment${post.comments?.length > 1 ? "s" : ""}`}
+          </p>
+          <p className="post--time">{getPostTime(post.createdAt.toDate())}</p>
         </div>
       </div>
     </div>
