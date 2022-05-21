@@ -72,6 +72,27 @@ body {
   color: var(--primary--color);
 }
 
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  border: 1px solid var(--primary--color);
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(
+    to left,
+    #c70039,
+    #e0432e,
+    #f26f1f,
+    #fd9908,
+    #ffc300
+  );
+}
+
 @media only screen and (max-width: 450px) {
   .Toastify__toast-container .Toastify__toast {
     margin: 1rem;
