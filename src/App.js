@@ -3,7 +3,16 @@ import { ToastContainer } from "react-toastify";
 import { CreatePostModal, RequiresAuth } from "./components";
 import { routes } from "./constant";
 import { usePosts } from "./context";
-import { Explore, Home, Login, Post, Profile, Saved, SignUp } from "./pages";
+import {
+  Error404,
+  Explore,
+  Home,
+  Login,
+  Post,
+  Profile,
+  Saved,
+  SignUp,
+} from "./pages";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -20,6 +29,7 @@ function App() {
           <Route path={routes.EXPLORE_PAGE} element={<Explore />} />
           <Route path={routes.SAVED_PAGE} element={<Saved />} />
         </Route>
+        <Route path="*" element={<Error404 />} />
       </Routes>
       <ToastContainer
         position="top-right"
