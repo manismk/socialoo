@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { InputPassword, InputTextBox } from "../../components";
 import "./auth.css";
 import { handleLoginValidation } from "../../utils/";
 import { useAuth } from "../../context";
+import { handleSignIn } from "../../service";
 
 export const Login = () => {
   const [userData, setUserData] = useState({
@@ -12,8 +13,9 @@ export const Login = () => {
     mailError: "",
     passwordError: "",
   });
-
-  const { signIn } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { setUser } = useAuth();
 
   const loginHandler = () => {
     const { mailError, passwordError } = handleLoginValidation(
@@ -29,7 +31,13 @@ export const Login = () => {
       }));
     }
     if (mailError.length === 0 && passwordError.length === 0) {
-      signIn(userData.userMail, userData.password);
+      handleSignIn(
+        userData.userMail,
+        userData.password,
+        location,
+        navigate,
+        setUser
+      );
     }
   };
 

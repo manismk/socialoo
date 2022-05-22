@@ -3,11 +3,12 @@ import { EditProfileModal, Loader, PostCard } from "../../components/";
 import { Logout } from "@mui/icons-material";
 import { useAuth, usePosts, useUser } from "../../context";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { handleFollow, handleUnfollow } from "../../service";
+import { useNavigate, useParams } from "react-router-dom";
+import { handleFollow, handleSignOut, handleUnfollow } from "../../service";
 
 export const Profile = () => {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { allUsers } = useUser();
   const { posts, postLoading } = usePosts();
   const [showEditModal, setEditModal] = useState(false);
@@ -38,7 +39,7 @@ export const Profile = () => {
             {currentProfileData.isProfileUserLoggedInUser && (
               <button
                 className="btn icon--btn btn--logout"
-                onClick={() => signOut()}
+                onClick={() => handleSignOut(navigate)}
               >
                 <Logout />
                 <span>Logout</span>

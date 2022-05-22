@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { InputPassword, InputTextBox } from "../../components";
 import { useAuth } from "../../context";
+import { handleSignUp } from "../../service";
 import { handleSignUpValidation } from "../../utils";
 
 export const SignUp = () => {
@@ -18,7 +19,9 @@ export const SignUp = () => {
     confirmPasswordError: "",
   });
 
-  const { signUp } = useAuth();
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const signUpHandler = () => {
     const {
@@ -58,11 +61,14 @@ export const SignUp = () => {
       lastNameError.length === 0 &&
       confirmPasswordError.length === 0
     ) {
-      signUp(
+      handleSignUp(
         userData.userMail,
         userData.password,
         userData.firstName,
-        userData.lastName
+        userData.lastName,
+        location,
+        navigate,
+        setUser
       );
     }
   };

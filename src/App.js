@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { CreatePostModal, RequiresAuth } from "./components";
 import { routes } from "./constant";
-import { usePosts } from "./context";
+import { useAuth, usePosts } from "./context";
 import {
   Error404,
   Explore,
@@ -14,8 +14,23 @@ import {
   SignUp,
 } from "./pages";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import { auth } from "./firebase";
 
 function App() {
+  const { setUser } = useAuth();
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   const { posts } = usePosts();
   return (
     <div className="App container--100">
