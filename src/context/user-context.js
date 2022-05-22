@@ -21,14 +21,14 @@ const UserProvider = ({ children }) => {
     } catch (e) {
       console.error("Error in getting userData", e);
     }
-  }, [user.uid]);
+  }, [user?.uid]);
 
   useEffect(() => {
     setAllUsers((prev) => ({
       ...prev,
       currentUser: allUsers.users.find((us) => us.uid === user.uid),
     }));
-  }, [allUsers.users, user.uid]);
+  }, [allUsers.users, user?.uid]);
 
   return (
     <UserContext.Provider value={{ allUsers }}>{children}</UserContext.Provider>

@@ -7,7 +7,6 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -19,7 +18,6 @@ const AuthProvider = ({ children }) => {
       } else {
         setUser(false);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -79,7 +77,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, signUp, signIn, signOut }}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };

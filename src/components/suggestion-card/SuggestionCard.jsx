@@ -15,7 +15,7 @@ export const SuggestionCard = () => {
           !allUsers?.currentUser?.following?.includes(curUser.uid)
       )
     );
-  }, [allUsers, user.uid]);
+  }, [allUsers, user?.uid]);
 
   return (
     <>

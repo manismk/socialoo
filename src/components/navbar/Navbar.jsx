@@ -37,7 +37,7 @@ export const Navbar = () => {
         <NavLink
           style={activeLink}
           className="nav--item"
-          to={`/user/${user.uid}`}
+          to={`/user/${user?.uid}`}
         >
           <Person />
           <span>Profile</span>

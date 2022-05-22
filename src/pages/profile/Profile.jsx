@@ -24,11 +24,11 @@ export const Profile = () => {
       ...prev,
       posts: posts.posts.filter((post) => post.uid === userId),
       currentUser: allUsers.users.find((user) => user.uid === userId),
-      isProfileUserLoggedInUser: user.uid === userId,
+      isProfileUserLoggedInUser: user?.uid === userId,
       isLoggedInUserFollowingThisProfile:
         allUsers.currentUser?.following?.includes(userId),
     }));
-  }, [userId, posts, allUsers, user.uid]);
+  }, [userId, posts, allUsers, user?.uid]);
 
   return (
     <>
