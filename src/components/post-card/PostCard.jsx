@@ -6,10 +6,9 @@ import {
   FavoriteBorder,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { usePosts, useUser } from "../../context";
 import {
   handleDeletePost,
   handleFollow,
@@ -17,13 +16,14 @@ import {
   handleSave,
   handleUnfollow,
 } from "../../service";
+import { openPostModalFromEdit } from "../../store/features/postSlice";
 import { getPostTime } from "../../utils";
 import "./postCard.css";
 
 export const PostCard = ({ post }) => {
-  const { allUsers } = useUser();
+  const { users, currentUser } = useSelector((state) => state.allUsers);
   const { user } = useSelector((state) => state.auth);
-  const { openModalFromEdit } = usePosts();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [postUserData, setPostUserData] = useState({
     profilePictureUrl: "",
@@ -37,21 +37,20 @@ export const PostCard = ({ post }) => {
   });
 
   useEffect(() => {
-    const { profilePictureUrl, firstName, lastName, followers } =
-      allUsers.users.find((user) => user.uid === post.uid);
+    const postUser = users.find((user) => user.uid === post.uid);
     setPostUserData((prev) => ({
       ...prev,
-      profilePictureUrl,
-      firstName,
-      lastName,
+      profilePictureUrl: postUser?.profilePictureUrl,
+      firstName: postUser?.firstName,
+      lastName: postUser?.lastName,
       isLiked: post.likedIds.includes(user.uid),
       isThisPostFromCurrentUser: post.uid === user.uid,
-      isSaved: allUsers?.currentUser?.saved?.includes(post.postId),
-      savedArray: allUsers?.currentUser?.saved,
-      isAlreadyFollowing: allUsers?.currentUser?.following?.includes(post.uid),
-      postFollowers: followers,
+      isSaved: currentUser?.saved?.includes(post.postId),
+      savedArray: currentUser?.saved,
+      isAlreadyFollowing: currentUser?.following?.includes(post.uid),
+      postFollowers: postUser?.followers,
     }));
-  }, [post, allUsers, user]);
+  }, [post, users, currentUser, user?.uid]);
   return (
     <div className="post--card">
       <div className="post--header">
@@ -69,7 +68,7 @@ export const PostCard = ({ post }) => {
           <div>
             <button
               className="btn btn--link"
-              onClick={() => openModalFromEdit(post)}
+              onClick={() => dispatch(openPostModalFromEdit(post))}
             >
               Edit
             </button>
@@ -89,14 +88,14 @@ export const PostCard = ({ post }) => {
               onClick={() =>
                 postUserData.isAlreadyFollowing
                   ? handleUnfollow(
-                      allUsers?.currentUser.uid,
-                      allUsers?.currentUser.following,
+                      currentUser.uid,
+                      currentUser.following,
                       post.uid,
                       postUserData.postFollowers
                     )
                   : handleFollow(
-                      allUsers?.currentUser.uid,
-                      allUsers?.currentUser.following,
+                      currentUser.uid,
+                      currentUser.following,
                       post.uid,
                       postUserData.postFollowers
                     )
@@ -206,7 +205,9 @@ export const PostCard = ({ post }) => {
             {post.comments?.length}{" "}
             {`Comment${post.comments?.length > 1 ? "s" : ""}`}
           </p>
-          <p className="post--time">{getPostTime(post?.createdAt?.toDate())}</p>
+          <p className="post--time">
+            {getPostTime(new Date(post.createdAt?.seconds * 1000))}
+          </p>
         </div>
       </div>
     </div>

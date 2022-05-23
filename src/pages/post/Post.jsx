@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { CommentContainer, Loader, PostCard } from "../../components";
-import { usePosts } from "../../context";
 import "./post.css";
 
 export const Post = () => {
   const { postId } = useParams();
-  const { posts, postLoading } = usePosts();
+  const { posts } = useSelector((state) => state.post);
   const [currentPost, setCurrentPost] = useState(null);
 
   useEffect(() => {
-    setCurrentPost(posts.posts.find((post) => post.postId === postId));
+    setCurrentPost(posts.find((post) => post.postId === postId));
   }, [postId, posts]);
+
   return (
     <>
       {currentPost ? (
@@ -22,7 +23,6 @@ export const Post = () => {
       ) : (
         <p className="text--center para--md text--bold">No posts found</p>
       )}
-      {postLoading && <Loader />}
     </>
   );
 };

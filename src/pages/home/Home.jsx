@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Filter, Loader, PostCard, SuggestionCard } from "../../components/";
-import { useFilter, usePosts, useUser } from "../../context";
+
 import "./home.css";
 
 export const Home = () => {
-  const { allUsers } = useUser();
-  const { filterState } = useFilter();
+  const { currentUser } = useSelector((state) => state.allUsers);
+  const { filteredPosts } = useSelector((state) => state.post);
 
   const [followersPost, setFollowersPost] = useState([]);
   useEffect(() => {
     setFollowersPost(
-      filterState.filteredPosts.filter((post) =>
-        allUsers?.currentUser?.following?.includes(post.uid)
-      )
+      filteredPosts.filter((post) => currentUser?.following?.includes(post.uid))
     );
-  }, [filterState.filteredPosts, allUsers.currentUser]);
+  }, [filteredPosts, currentUser]);
 
   return (
     <div className="container">

@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useUser } from "../../context";
 import { handleFollow } from "../../service";
 import "./suggestionCard.css";
 
 export const SuggestionCard = () => {
   const user = useSelector((state) => state.auth.user);
-  const { allUsers } = useUser();
+  const { users, currentUser } = useSelector((state) => state.allUsers);
   const [suggestionUser, setSuggestionUser] = useState([]);
   useEffect(() => {
     setSuggestionUser(
-      allUsers.users.filter(
+      users.filter(
         (curUser) =>
           curUser.uid !== user.uid &&
-          !allUsers?.currentUser?.following?.includes(curUser.uid)
+          !currentUser?.following?.includes(curUser.uid)
       )
     );
-  }, [allUsers, user?.uid]);
+  }, [currentUser, users, user?.uid]);
 
   return (
     <>
@@ -39,8 +38,8 @@ export const SuggestionCard = () => {
                   className="btn btn--link suggestion--follow"
                   onClick={() =>
                     handleFollow(
-                      allUsers?.currentUser.uid,
-                      allUsers?.currentUser.following,
+                      currentUser.uid,
+                      currentUser.following,
                       user.uid,
                       user.followers
                     )
