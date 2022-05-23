@@ -1,6 +1,7 @@
 import { Bookmark, Explore, Home, Person } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { useAuth, usePosts } from "../../context";
+import { usePosts } from "../../context";
 import "./navbar.css";
 
 const activeLink = ({ isActive }) => ({
@@ -9,7 +10,7 @@ const activeLink = ({ isActive }) => ({
 
 export const Navbar = () => {
   const { openModal } = usePosts();
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <header className="nav--container">

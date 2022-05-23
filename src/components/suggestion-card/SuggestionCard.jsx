@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useAuth, useUser } from "../../context";
+import { useSelector } from "react-redux";
+import { useUser } from "../../context";
 import { handleFollow } from "../../service";
 import "./suggestionCard.css";
 
 export const SuggestionCard = () => {
-  const { user } = useAuth();
+  const user = useSelector((state) => state.auth.user);
   const { allUsers } = useUser();
   const [suggestionUser, setSuggestionUser] = useState([]);
   useEffect(() => {

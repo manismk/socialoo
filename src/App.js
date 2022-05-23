@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { CreatePostModal, RequiresAuth } from "./components";
 import { routes } from "./constant";
-import { useAuth, usePosts } from "./context";
+import { usePosts } from "./context";
 import {
   Error404,
   Explore,
@@ -16,15 +16,18 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { auth } from "./firebase";
+import { useDispatch } from "react-redux";
+import { setUser } from "./store/features/authSlice";
 
 function App() {
-  const { setUser } = useAuth();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setUser(user);
+        dispatch(setUser(JSON.parse(JSON.stringify(user))));
       } else {
-        setUser(false);
+        dispatch(setUser(null));
       }
     });
 

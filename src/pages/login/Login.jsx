@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { InputPassword, InputTextBox } from "../../components";
 import "./auth.css";
 import { handleLoginValidation } from "../../utils/";
-import { useAuth } from "../../context";
 import { handleSignIn } from "../../service";
 
 export const Login = () => {
@@ -15,7 +14,6 @@ export const Login = () => {
   });
   const navigate = useNavigate();
   const location = useLocation();
-  const { setUser } = useAuth();
 
   const loginHandler = () => {
     const { mailError, passwordError } = handleLoginValidation(
@@ -31,13 +29,7 @@ export const Login = () => {
       }));
     }
     if (mailError.length === 0 && passwordError.length === 0) {
-      handleSignIn(
-        userData.userMail,
-        userData.password,
-        location,
-        navigate,
-        setUser
-      );
+      handleSignIn(userData.userMail, userData.password, location, navigate);
     }
   };
 

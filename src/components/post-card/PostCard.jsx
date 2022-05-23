@@ -6,9 +6,10 @@ import {
   FavoriteBorder,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth, usePosts, useUser } from "../../context";
+import { usePosts, useUser } from "../../context";
 import {
   handleDeletePost,
   handleFollow,
@@ -21,7 +22,7 @@ import "./postCard.css";
 
 export const PostCard = ({ post }) => {
   const { allUsers } = useUser();
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth);
   const { openModalFromEdit } = usePosts();
   const navigate = useNavigate();
   const [postUserData, setPostUserData] = useState({

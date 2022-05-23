@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { db } from "../firebase";
-import { useAuth } from "./auth-context";
 
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const [allUsers, setAllUsers] = useState({ users: [], currentUser: {} });
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     try {
@@ -26,7 +26,7 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     setAllUsers((prev) => ({
       ...prev,
-      currentUser: allUsers.users.find((us) => us.uid === user.uid),
+      currentUser: allUsers.users.find((us) => us.uid === user?.uid),
     }));
   }, [allUsers.users, user?.uid]);
 
