@@ -21,7 +21,7 @@ export const Filter = () => {
           name="filter"
           value={filterValues.TRENDING}
           checked={sort === filterValues.TRENDING ? true : false}
-          onChange={(e) => changeHandler(e, dispatch)}
+          onChange={(e) => changeHandler(e)}
         />
         <label htmlFor={filterValues.TRENDING} className="filter--radio--label">
           <Whatshot />
@@ -36,7 +36,7 @@ export const Filter = () => {
           name="filter"
           value={filterValues.LATEST}
           checked={sort === filterValues.LATEST ? true : false}
-          onChange={(e) => changeHandler(e, dispatch)}
+          onChange={(e) => changeHandler(e)}
         />
         <label htmlFor={filterValues.LATEST} className="filter--radio--label">
           <Leaderboard />
