@@ -1,13 +1,14 @@
 import "./profile.css";
 import { EditProfileModal, Loader, PostCard } from "../../components/";
 import { Logout } from "@mui/icons-material";
-import { useAuth, usePosts, useUser } from "../../context";
+import { usePosts, useUser } from "../../context";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { handleFollow, handleSignOut, handleUnfollow } from "../../service";
+import { useSelector } from "react-redux";
 
 export const Profile = () => {
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { allUsers } = useUser();
   const { posts, postLoading } = usePosts();

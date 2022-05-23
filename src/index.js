@@ -3,18 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import {
-  AuthProvider,
-  FilterProvider,
-  PostProvider,
-  UserProvider,
-} from "./context";
+import { FilterProvider, PostProvider, UserProvider } from "./context";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
+      <Provider store={store}>
         <UserProvider>
           <PostProvider>
             <FilterProvider>
@@ -22,7 +19,7 @@ root.render(
             </FilterProvider>
           </PostProvider>
         </UserProvider>
-      </AuthProvider>
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 );

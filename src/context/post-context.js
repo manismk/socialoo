@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { db } from "../firebase";
-import { useAuth } from "./auth-context";
 
 const PostContext = createContext();
 
@@ -12,7 +12,7 @@ const PostProvider = ({ children }) => {
     editData: {},
   });
   const [postLoading, setPostLoading] = useState(false);
-  const { user } = useAuth();
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     setPostLoading(true);

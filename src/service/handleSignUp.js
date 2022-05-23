@@ -7,15 +7,13 @@ export const handleSignUp = (
   firstName,
   lastName,
   location,
-  navigate,
-  setUser
+  navigate
 ) => {
   const from = location.state?.from?.pathname || "/";
 
   auth
     .createUserWithEmailAndPassword(email, password)
     .then((response) => {
-      setUser(response.user);
       navigate(from, { replace: true });
       toast.success("Signed Up Successfully");
       db.collection(`users/`).doc(response.user.uid).set({

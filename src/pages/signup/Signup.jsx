@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { InputPassword, InputTextBox } from "../../components";
-import { useAuth } from "../../context";
 import { handleSignUp } from "../../service";
 import { handleSignUpValidation } from "../../utils";
 
@@ -19,7 +18,6 @@ export const SignUp = () => {
     confirmPasswordError: "",
   });
 
-  const { setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -67,8 +65,7 @@ export const SignUp = () => {
         userData.firstName,
         userData.lastName,
         location,
-        navigate,
-        setUser
+        navigate
       );
     }
   };

@@ -1,12 +1,13 @@
+import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "../../context";
 import { Navbar } from "../navbar/Navbar";
 
 export const RequiresAuth = () => {
-  let { user } = useAuth();
+  const { user } = useSelector((state) => state.auth);
+
   const location = useLocation();
 
-  if (user === false) {
+  if (user === null) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
   return (
