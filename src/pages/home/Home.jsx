@@ -4,7 +4,6 @@ import { useFilter, usePosts, useUser } from "../../context";
 import "./home.css";
 
 export const Home = () => {
-  const { postLoading } = usePosts();
   const { allUsers } = useUser();
   const { filterState } = useFilter();
 
@@ -36,7 +35,7 @@ export const Home = () => {
       <div className="suggestion--container">
         <SuggestionCard />
       </div>
-      {postLoading && <Loader />}
+      {/* {postLoading && <Loader />} */}
     </div>
   );
 };

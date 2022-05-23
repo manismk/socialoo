@@ -7,7 +7,7 @@ export const RequiresAuth = () => {
 
   const location = useLocation();
 
-  if (user === null) {
+  if (user === false) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
   return (

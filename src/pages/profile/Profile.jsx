@@ -144,7 +144,7 @@ export const Profile = () => {
       {showEditModal && (
         <EditProfileModal closeModal={() => setEditModal(false)} />
       )}
-      {postLoading && <Loader />}
+      {/* {postLoading && <Loader />} */}
     </>
   );
 };

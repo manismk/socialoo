@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { CreatePostModal, RequiresAuth } from "./components";
 import { routes } from "./constant";
-import { usePosts } from "./context";
+import { usePosts, useUser } from "./context";
 import {
   Error404,
   Explore,
@@ -15,26 +15,64 @@ import {
 } from "./pages";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import { auth } from "./firebase";
-import { useDispatch } from "react-redux";
+import { auth, db } from "./firebase";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./store/features/authSlice";
 
 function App() {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { posts, setPosts } = usePosts();
+  const { allUsers, setAllUsers } = useUser();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         dispatch(setUser(JSON.parse(JSON.stringify(user))));
       } else {
-        dispatch(setUser(null));
+        dispatch(setUser(false));
       }
     });
 
     return () => unsubscribe();
   }, []);
 
-  const { posts } = usePosts();
+  useEffect(() => {
+    try {
+      db.collection(`posts`).onSnapshot((querySnapshot) => {
+        setPosts((prev) => ({
+          ...prev,
+          posts: querySnapshot.docs.map((post) => ({
+            ...post.data(),
+          })),
+        }));
+      });
+    } catch (e) {
+      console.error("Error in getting posts data", e);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      db.collection(`users`).onSnapshot((querySnapshot) => {
+        setAllUsers((prev) => ({
+          ...prev,
+          users: querySnapshot.docs.map((user) => ({
+            ...user.data(),
+          })),
+        }));
+      });
+    } catch (e) {
+      console.error("Error in getting userData", e);
+    }
+  }, [user?.uid]);
+  useEffect(() => {
+    setAllUsers((prev) => ({
+      ...prev,
+      currentUser: allUsers.users.find((us) => us.uid === user?.uid),
+    }));
+  }, [allUsers.users, user?.uid]);
+
   return (
     <div className="App container--100">
       <Routes>

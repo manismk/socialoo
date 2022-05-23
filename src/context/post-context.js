@@ -1,6 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { db } from "../firebase";
+import { createContext, useContext, useState } from "react";
 
 const PostContext = createContext();
 
@@ -11,26 +9,6 @@ const PostProvider = ({ children }) => {
     isFromEdit: false,
     editData: {},
   });
-  const [postLoading, setPostLoading] = useState(false);
-  const { user } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    setPostLoading(true);
-    try {
-      db.collection(`posts`).onSnapshot((querySnapshot) => {
-        setPosts((prev) => ({
-          ...prev,
-          posts: querySnapshot.docs.map((post) => ({
-            ...post.data(),
-          })),
-        }));
-        setPostLoading(false);
-      });
-    } catch (e) {
-      console.error("Error in getting posts data", e);
-      setPostLoading(false);
-    }
-  }, [user]);
 
   const openModalFromEdit = (editData) =>
     setPosts((prev) => ({
@@ -58,7 +36,7 @@ const PostProvider = ({ children }) => {
         openModal,
         closeModal,
         openModalFromEdit,
-        postLoading,
+        setPosts,
       }}
     >
       {children}

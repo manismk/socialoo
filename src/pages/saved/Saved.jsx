@@ -31,7 +31,7 @@ export const Saved = () => {
       <div className="suggestion--container">
         <SuggestionCard />
       </div>
-      {postLoading && <Loader />}
+      {/* {postLoading && <Loader />} */}
     </div>
   );
 };

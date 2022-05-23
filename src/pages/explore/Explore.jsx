@@ -2,7 +2,6 @@ import { Filter, Loader, PostCard, SuggestionCard } from "../../components/";
 import { useFilter, usePosts } from "../../context";
 
 export const Explore = () => {
-  const { postLoading } = usePosts();
   const { filterState } = useFilter();
 
   return (
@@ -16,7 +15,7 @@ export const Explore = () => {
       <div className="suggestion--container">
         <SuggestionCard />
       </div>
-      {postLoading && <Loader />}
+      {/* {postLoading && <Loader />} */}
     </div>
   );
 };
