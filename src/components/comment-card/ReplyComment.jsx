@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useUser } from "../../context";
 
 export const ReplyComment = ({ reply }) => {
-  const { allUsers } = useUser();
+  const { users } = useSelector((state) => state.allUsers);
   const [commentUser, setCommentUser] = useState({});
 
   useEffect(() => {
-    setCommentUser(allUsers.users.find((user) => user.uid === reply.uid));
+    setCommentUser(users.find((user) => user.uid === reply.uid));
   }, []);
   return (
     <div className="user--comment--wrapper user--reply">

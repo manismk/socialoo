@@ -1,16 +1,17 @@
 import { Reply } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useUser } from "../../context";
+
 import { CommentInput } from "./CommentInput";
 import { ReplyComment } from "./ReplyComment";
 
 export const Comment = ({ comment, postComments }) => {
-  const { allUsers } = useUser();
+  const { users } = useSelector((state) => state.allUsers);
   const [showReply, setShowReply] = useState(false);
   const [commentUser, setCommentUser] = useState({});
   useEffect(() => {
-    setCommentUser(allUsers.users.find((user) => user.uid === comment.uid));
+    setCommentUser(users.find((user) => user.uid === comment.uid));
   }, []);
   return (
     <div className="user--comment--container">

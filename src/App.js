@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { CreatePostModal, RequiresAuth } from "./components";
 import { routes } from "./constant";
-import { usePosts, useUser } from "./context";
 import {
   Error404,
   Explore,
@@ -19,12 +18,13 @@ import { auth, db } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./store/features/authSlice";
 import { setPostData, updateFilteredPosts } from "./store/features/postSlice";
+import { setAllUsers, setCurrentUser } from "./store/features/userSlice";
 
 function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { isCreatePostModalOpen, posts } = useSelector((state) => state.post);
-  const { allUsers, setAllUsers } = useUser();
+  const { users } = useSelector((state) => state.allUsers);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -61,23 +61,25 @@ function App() {
   useEffect(() => {
     try {
       db.collection(`users`).onSnapshot((querySnapshot) => {
-        setAllUsers((prev) => ({
-          ...prev,
-          users: querySnapshot.docs.map((user) => ({
-            ...user.data(),
-          })),
-        }));
+        dispatch(
+          setAllUsers(
+            querySnapshot.docs.map((user) =>
+              JSON.parse(
+                JSON.stringify({
+                  ...user.data(),
+                })
+              )
+            )
+          )
+        );
       });
     } catch (e) {
       console.error("Error in getting userData", e);
     }
   }, [user?.uid]);
   useEffect(() => {
-    setAllUsers((prev) => ({
-      ...prev,
-      currentUser: allUsers.users.find((us) => us.uid === user?.uid),
-    }));
-  }, [allUsers.users, user?.uid]);
+    dispatch(setCurrentUser(users.find((us) => us.uid === user?.uid)));
+  }, [users, user?.uid]);
 
   useEffect(() => {
     dispatch(updateFilteredPosts(posts));

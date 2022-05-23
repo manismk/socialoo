@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { useDispatch, useSelector } from "react-redux";
-import { useUser } from "../../context";
 import { handleCreatePost, handleEditPost } from "../../service";
 import { closePostModal } from "../../store/features/postSlice";
 import "./createPostModal.css";
@@ -17,7 +16,7 @@ export const CreatePostModal = () => {
     imageLink: "",
   });
   const { isFromEdit, editData } = useSelector((state) => state.post);
-  const { allUsers } = useUser();
+  const { currentUser } = useSelector((state) => state.allUsers);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,7 +56,7 @@ export const CreatePostModal = () => {
         handleCreatePost(
           postData.caption,
           postData.imageFile,
-          allUsers?.currentUser?.uid
+          currentUser?.uid
         );
       }
       dispatch(closePostModal());

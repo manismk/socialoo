@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { InputTextBox } from "../";
-import { useUser } from "../../context";
 import { handleComment, handleReply } from "../../service";
 
 export const CommentInput = ({ from, fromObj }) => {
-  const { allUsers } = useUser();
+  const { currentUser } = useSelector((state) => state.allUsers);
   const [commentData, setCommentData] = useState({
     comment: "",
     commentError: "",
@@ -20,7 +20,7 @@ export const CommentInput = ({ from, fromObj }) => {
     if (commentData.comment.length > 0 && from === "Comment") {
       handleComment(
         commentData.comment,
-        allUsers?.currentUser.uid,
+        currentUser?.uid,
         fromObj.post.postId,
         fromObj.post.comments
       );
@@ -29,7 +29,7 @@ export const CommentInput = ({ from, fromObj }) => {
     if (commentData.comment.length > 0 && from === "Reply") {
       handleReply(
         commentData.comment,
-        allUsers?.currentUser.uid,
+        currentUser?.uid,
         fromObj.comment,
         fromObj.postComments
       );
@@ -41,7 +41,7 @@ export const CommentInput = ({ from, fromObj }) => {
   return (
     <div className="comment--input">
       <img
-        src={allUsers?.currentUser?.profilePictureUrl}
+        src={currentUser?.profilePictureUrl}
         alt=""
         className="avatar avatar--circle avatar--xs"
       />

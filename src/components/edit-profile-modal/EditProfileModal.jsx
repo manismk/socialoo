@@ -1,13 +1,14 @@
 import { CameraAlt } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useUser } from "../../context";
+import { useSelector } from "react-redux";
+
 import { handleEditProfile } from "../../service";
 import { handleEditProfileValidation } from "../../utils";
 import { InputTextBox } from "../input/InputTextBox";
 import "./editProfileModal.css";
 
 export const EditProfileModal = ({ closeModal }) => {
-  const { allUsers } = useUser();
+  const { currentUser } = useSelector((state) => state.allUsers);
   const [editData, setEditData] = useState({
     firstName: "",
     lastName: "",
@@ -23,17 +24,17 @@ export const EditProfileModal = ({ closeModal }) => {
   });
 
   useEffect(() => {
-    if (allUsers?.currentUser.firstName !== undefined) {
+    if (currentUser.firstName !== undefined) {
       setEditData((prev) => ({
         ...prev,
-        firstName: allUsers?.currentUser.firstName,
-        lastName: allUsers?.currentUser.lastName,
-        bio: allUsers?.currentUser.bio,
-        profileImage: allUsers?.currentUser.profilePictureUrl,
-        portfolioLink: allUsers?.currentUser.portfolioLink,
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        bio: currentUser.bio,
+        profileImage: currentUser.profilePictureUrl,
+        portfolioLink: currentUser.portfolioLink,
       }));
     }
-  }, [allUsers?.currentUser]);
+  }, [currentUser]);
 
   const editHandler = () => {
     const { firstNameError, lastNameError, bioError, portfolioLinkError } =
@@ -73,7 +74,7 @@ export const EditProfileModal = ({ closeModal }) => {
         editData.portfolioLink,
         editData.profileImage,
         editData.raw,
-        allUsers?.currentUser
+        currentUser
       );
     }
   };

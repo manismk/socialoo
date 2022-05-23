@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useUser } from "../../context";
 import {
   handleDeletePost,
   handleFollow,
@@ -22,7 +21,7 @@ import { getPostTime } from "../../utils";
 import "./postCard.css";
 
 export const PostCard = ({ post }) => {
-  const { allUsers } = useUser();
+  const { users, currentUser } = useSelector((state) => state.allUsers);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ export const PostCard = ({ post }) => {
   });
 
   useEffect(() => {
-    const postUser = allUsers.users.find((user) => user.uid === post.uid);
+    const postUser = users.find((user) => user.uid === post.uid);
     setPostUserData((prev) => ({
       ...prev,
       profilePictureUrl: postUser?.profilePictureUrl,
@@ -46,12 +45,12 @@ export const PostCard = ({ post }) => {
       lastName: postUser?.lastName,
       isLiked: post.likedIds.includes(user.uid),
       isThisPostFromCurrentUser: post.uid === user.uid,
-      isSaved: allUsers?.currentUser?.saved?.includes(post.postId),
-      savedArray: allUsers?.currentUser?.saved,
-      isAlreadyFollowing: allUsers?.currentUser?.following?.includes(post.uid),
+      isSaved: currentUser?.saved?.includes(post.postId),
+      savedArray: currentUser?.saved,
+      isAlreadyFollowing: currentUser?.following?.includes(post.uid),
       postFollowers: postUser?.followers,
     }));
-  }, [post, allUsers, user?.uid]);
+  }, [post, users, currentUser, user?.uid]);
   return (
     <div className="post--card">
       <div className="post--header">
@@ -89,14 +88,14 @@ export const PostCard = ({ post }) => {
               onClick={() =>
                 postUserData.isAlreadyFollowing
                   ? handleUnfollow(
-                      allUsers?.currentUser.uid,
-                      allUsers?.currentUser.following,
+                      currentUser.uid,
+                      currentUser.following,
                       post.uid,
                       postUserData.postFollowers
                     )
                   : handleFollow(
-                      allUsers?.currentUser.uid,
-                      allUsers?.currentUser.following,
+                      currentUser.uid,
+                      currentUser.following,
                       post.uid,
                       postUserData.postFollowers
                     )

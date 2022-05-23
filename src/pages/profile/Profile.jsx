@@ -1,7 +1,6 @@
 import "./profile.css";
 import { EditProfileModal, Loader, PostCard } from "../../components/";
 import { Logout } from "@mui/icons-material";
-import { usePosts, useUser } from "../../context";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { handleFollow, handleSignOut, handleUnfollow } from "../../service";
@@ -11,7 +10,7 @@ export const Profile = () => {
   const { user } = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
   const navigate = useNavigate();
-  const { allUsers } = useUser();
+  const { users, currentUser } = useSelector((state) => state.allUsers);
 
   const [showEditModal, setEditModal] = useState(false);
   const { userId } = useParams();
@@ -26,12 +25,12 @@ export const Profile = () => {
     setCurrentProfile((prev) => ({
       ...prev,
       posts: posts.filter((post) => post.uid === userId),
-      currentUser: allUsers.users.find((user) => user.uid === userId),
+      currentUser: users.find((user) => user.uid === userId),
       isProfileUserLoggedInUser: user?.uid === userId,
       isLoggedInUserFollowingThisProfile:
-        allUsers.currentUser?.following?.includes(userId),
+        currentUser?.following?.includes(userId),
     }));
-  }, [userId, posts, allUsers, user?.uid]);
+  }, [userId, posts, users, currentUser, user?.uid]);
 
   return (
     <>
@@ -68,14 +67,14 @@ export const Profile = () => {
                 onClick={() =>
                   currentProfileData.isLoggedInUserFollowingThisProfile
                     ? handleUnfollow(
-                        allUsers?.currentUser.uid,
-                        allUsers?.currentUser.following,
+                        currentUser.uid,
+                        currentUser.following,
                         currentProfileData.currentUser.uid,
                         currentProfileData.currentUser.followers
                       )
                     : handleFollow(
-                        allUsers?.currentUser.uid,
-                        allUsers?.currentUser.following,
+                        currentUser.uid,
+                        currentUser.following,
                         currentProfileData.currentUser.uid,
                         currentProfileData.currentUser.followers
                       )
