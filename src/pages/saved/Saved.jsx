@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Loader, PostCard, SuggestionCard } from "../../components";
-import { usePosts, useUser } from "../../context";
+import { useUser } from "../../context";
 
 export const Saved = () => {
-  const { posts, postLoading } = usePosts();
+  const { posts } = useSelector((state) => state.post);
   const { allUsers } = useUser();
   const [savedPosts, setSavedPosts] = useState([]);
 
   useEffect(() => {
     setSavedPosts(
-      posts.posts.filter((currPost) =>
+      posts.filter((currPost) =>
         allUsers?.currentUser?.saved?.includes(currPost.postId)
       )
     );
-  }, [allUsers?.currentUser?.saved, posts.posts]);
+  }, [allUsers?.currentUser?.saved, posts]);
 
   return (
     <div className="container">

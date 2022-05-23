@@ -24,7 +24,7 @@ export const Comment = ({ comment, postComments }) => {
           <Link
             to={`/user/${comment.uid}`}
             className="text--bold comment--name"
-          >{`${commentUser.firstName} ${commentUser.lastName}`}</Link>
+          >{`${commentUser?.firstName} ${commentUser?.lastName}`}</Link>
           <div>{comment.comment}</div>
         </div>
         <button

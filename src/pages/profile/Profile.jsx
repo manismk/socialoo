@@ -9,9 +9,10 @@ import { useSelector } from "react-redux";
 
 export const Profile = () => {
   const { user } = useSelector((state) => state.auth);
+  const { posts } = useSelector((state) => state.post);
   const navigate = useNavigate();
   const { allUsers } = useUser();
-  const { posts, postLoading } = usePosts();
+
   const [showEditModal, setEditModal] = useState(false);
   const { userId } = useParams();
   const [currentProfileData, setCurrentProfile] = useState({
@@ -24,7 +25,7 @@ export const Profile = () => {
   useEffect(() => {
     setCurrentProfile((prev) => ({
       ...prev,
-      posts: posts.posts.filter((post) => post.uid === userId),
+      posts: posts.filter((post) => post.uid === userId),
       currentUser: allUsers.users.find((user) => user.uid === userId),
       isProfileUserLoggedInUser: user?.uid === userId,
       isLoggedInUserFollowingThisProfile:

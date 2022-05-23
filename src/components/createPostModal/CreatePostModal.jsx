@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
-import { usePosts, useUser } from "../../context";
+import { useDispatch, useSelector } from "react-redux";
+import { useUser } from "../../context";
 import { handleCreatePost, handleEditPost } from "../../service";
+import { closePostModal } from "../../store/features/postSlice";
 import "./createPostModal.css";
 
 const fileTypes = ["JPEG", "PNG", "JPG"];
@@ -14,18 +16,19 @@ export const CreatePostModal = () => {
     imageFileError: "",
     imageLink: "",
   });
-  const { closeModal, posts } = usePosts();
+  const { isFromEdit, editData } = useSelector((state) => state.post);
   const { allUsers } = useUser();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (posts.isFromEdit) {
-      if (posts.editData.imageUrl === null) {
-        setPostData((prev) => ({ ...prev, caption: posts.editData.caption }));
+    if (isFromEdit) {
+      if (editData.imageUrl === null) {
+        setPostData((prev) => ({ ...prev, caption: editData.caption }));
       } else {
         setPostData((prev) => ({
           ...prev,
-          caption: posts.editData.caption,
-          imageLink: posts.editData.imageUrl,
+          caption: editData.caption,
+          imageLink: editData.imageUrl,
           imageFile: {},
         }));
       }
@@ -43,9 +46,9 @@ export const CreatePostModal = () => {
 
   const clickHandler = () => {
     if (postData.caption.length && postData.imageFileError.length === 0) {
-      if (posts.isFromEdit) {
+      if (isFromEdit) {
         handleEditPost(
-          posts.editData,
+          editData,
           postData.caption,
           postData.imageLink,
           postData.imageFile
@@ -57,7 +60,7 @@ export const CreatePostModal = () => {
           allUsers?.currentUser?.uid
         );
       }
-      closeModal();
+      dispatch(closePostModal());
     }
     if (postData.caption.length === 0) {
       setPostData((prevData) => ({
@@ -70,7 +73,7 @@ export const CreatePostModal = () => {
     <>
       <div className="modal modal--alert modal--post ">
         <h5 className="modal--heading heading--4 text--center">
-          {posts.isFromEdit ? "Edit" : "Create New"} Post
+          {isFromEdit ? "Edit" : "Create New"} Post
         </h5>
         <div className="caption--container">
           <div
@@ -139,7 +142,7 @@ export const CreatePostModal = () => {
             <button
               href="#"
               className="btn btn--primary m-r-1"
-              onClick={closeModal}
+              onClick={() => dispatch(closePostModal())}
             >
               Cancel
             </button>
@@ -149,12 +152,12 @@ export const CreatePostModal = () => {
               className="btn btn--primary "
               onClick={clickHandler}
             >
-              {posts.isFromEdit ? "Update" : "Post"}
+              {isFromEdit ? "Update" : "Post"}
             </button>
           </div>
         </div>
       </div>
-      <div className="overlay" onClick={closeModal}></div>
+      <div className="overlay" onClick={() => dispatch(closePostModal())}></div>
     </>
   );
 };

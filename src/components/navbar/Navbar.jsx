@@ -1,7 +1,7 @@
 import { Bookmark, Explore, Home, Person } from "@mui/icons-material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { usePosts } from "../../context";
+import { openPostModal } from "../../store/features/postSlice";
 import "./navbar.css";
 
 const activeLink = ({ isActive }) => ({
@@ -9,15 +9,18 @@ const activeLink = ({ isActive }) => ({
 });
 
 export const Navbar = () => {
-  const { openModal } = usePosts();
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   return (
     <header className="nav--container">
       <div className="logo">
         <Link to="/">Socialoo</Link>
       </div>
-      <button className="btn btn--primary" onClick={openModal}>
+      <button
+        className="btn btn--primary"
+        onClick={() => dispatch(openPostModal())}
+      >
         Create Post
       </button>
       <div className="navbar--action--container">

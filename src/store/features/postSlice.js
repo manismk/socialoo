@@ -1,0 +1,54 @@
+import { filterValues } from "../../constant";
+import { getSortedPosts } from "../../utils";
+
+const { createSlice } = require("@reduxjs/toolkit");
+
+const initialState = {
+  posts: [],
+  isCreatePostModalOpen: false,
+  isFromEdit: false,
+  editData: {},
+  sort: filterValues.LATEST,
+  filteredPosts: [],
+};
+
+const postSlice = createSlice({
+  name: "post",
+  initialState,
+  reducers: {
+    openPostModal: (state) => {
+      state.isCreatePostModalOpen = true;
+    },
+    closePostModal: (state) => {
+      state.isCreatePostModalOpen = false;
+      state.isFromEdit = false;
+      state.editData = {};
+    },
+    openPostModalFromEdit: (state, { payload }) => {
+      state.isCreatePostModalOpen = true;
+      state.isFromEdit = true;
+      state.editData = payload;
+    },
+    setPostData: (state, { payload }) => {
+      state.posts = payload;
+    },
+    updateFilteredPosts: (state) => {
+      state.filteredPosts = getSortedPosts(state.posts, state.sort);
+    },
+    filterChange: (state, { payload }) => {
+      state.sort = payload.sort;
+      state.filteredPosts = getSortedPosts(state.posts, payload.sort);
+    },
+  },
+});
+
+export const {
+  openPostModal,
+  closePostModal,
+  setPostData,
+  openPostModalFromEdit,
+  updateFilteredPosts,
+  filterChange,
+} = postSlice.actions;
+
+export default postSlice.reducer;

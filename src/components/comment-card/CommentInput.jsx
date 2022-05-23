@@ -41,7 +41,7 @@ export const CommentInput = ({ from, fromObj }) => {
   return (
     <div className="comment--input">
       <img
-        src={allUsers?.currentUser.profilePictureUrl}
+        src={allUsers?.currentUser?.profilePictureUrl}
         alt=""
         className="avatar avatar--circle avatar--xs"
       />

@@ -18,11 +18,12 @@ import { useEffect } from "react";
 import { auth, db } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./store/features/authSlice";
+import { setPostData } from "./store/features/postSlice";
 
 function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { posts, setPosts } = usePosts();
+  const { isCreatePostModalOpen } = useSelector((state) => state.post);
   const { allUsers, setAllUsers } = useUser();
 
   useEffect(() => {
@@ -40,17 +41,22 @@ function App() {
   useEffect(() => {
     try {
       db.collection(`posts`).onSnapshot((querySnapshot) => {
-        setPosts((prev) => ({
-          ...prev,
-          posts: querySnapshot.docs.map((post) => ({
-            ...post.data(),
-          })),
-        }));
+        dispatch(
+          setPostData(
+            querySnapshot.docs.map((post) =>
+              JSON.parse(
+                JSON.stringify({
+                  ...post.data(),
+                })
+              )
+            )
+          )
+        );
       });
     } catch (e) {
       console.error("Error in getting posts data", e);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     try {
@@ -95,7 +101,7 @@ function App() {
         limit={2}
         style={{ top: "5rem" }}
       />
-      {posts?.isCreatePostModalOpen && <CreatePostModal />}
+      {isCreatePostModalOpen && <CreatePostModal />}
     </div>
   );
 }
