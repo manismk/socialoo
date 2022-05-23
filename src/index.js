@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { FilterProvider, PostProvider, UserProvider } from "./context";
+import { UserProvider } from "./context";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 
@@ -13,11 +13,7 @@ root.render(
     <BrowserRouter>
       <Provider store={store}>
         <UserProvider>
-          <PostProvider>
-            <FilterProvider>
-              <App />
-            </FilterProvider>
-          </PostProvider>
+          <App />
         </UserProvider>
       </Provider>
     </BrowserRouter>

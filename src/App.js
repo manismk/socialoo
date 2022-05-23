@@ -18,12 +18,12 @@ import { useEffect } from "react";
 import { auth, db } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./store/features/authSlice";
-import { setPostData } from "./store/features/postSlice";
+import { setPostData, updateFilteredPosts } from "./store/features/postSlice";
 
 function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { isCreatePostModalOpen } = useSelector((state) => state.post);
+  const { isCreatePostModalOpen, posts } = useSelector((state) => state.post);
   const { allUsers, setAllUsers } = useUser();
 
   useEffect(() => {
@@ -79,6 +79,9 @@ function App() {
     }));
   }, [allUsers.users, user?.uid]);
 
+  useEffect(() => {
+    dispatch(updateFilteredPosts(posts));
+  }, [posts]);
   return (
     <div className="App container--100">
       <Routes>

@@ -32,8 +32,8 @@ const postSlice = createSlice({
     setPostData: (state, { payload }) => {
       state.posts = payload;
     },
-    updateFilteredPosts: (state) => {
-      state.filteredPosts = getSortedPosts(state.posts, state.sort);
+    updateFilteredPosts: (state, { payload }) => {
+      state.filteredPosts = getSortedPosts(payload, state.sort);
     },
     filterChange: (state, { payload }) => {
       state.sort = payload.sort;

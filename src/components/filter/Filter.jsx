@@ -1,16 +1,16 @@
 import { Leaderboard, Whatshot } from "@mui/icons-material";
-import { filterActions, filterValues } from "../../constant";
-import { useFilter } from "../../context";
+import { useDispatch, useSelector } from "react-redux";
+import { filterValues } from "../../constant";
+import { filterChange } from "../../store/features/postSlice";
 import "./filter.css";
 
-const changeHandler = (e, filterDispatch) => {
-  filterDispatch({
-    type: filterActions.SORT_CHANGE,
-    payload: { sort: e.target.value },
-  });
-};
 export const Filter = () => {
-  const { filterState, filterDispatch } = useFilter();
+  const { sort } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+
+  const changeHandler = (e) => {
+    dispatch(filterChange({ sort: e.target.value }));
+  };
   return (
     <div className="filter--container">
       <div className="filter--items">
@@ -20,8 +20,8 @@ export const Filter = () => {
           className="filter--radio"
           name="filter"
           value={filterValues.TRENDING}
-          checked={filterState.sort === filterValues.TRENDING ? true : false}
-          onChange={(e) => changeHandler(e, filterDispatch)}
+          checked={sort === filterValues.TRENDING ? true : false}
+          onChange={(e) => changeHandler(e, dispatch)}
         />
         <label htmlFor={filterValues.TRENDING} className="filter--radio--label">
           <Whatshot />
@@ -35,8 +35,8 @@ export const Filter = () => {
           className="filter--radio"
           name="filter"
           value={filterValues.LATEST}
-          checked={filterState.sort === filterValues.LATEST ? true : false}
-          onChange={(e) => changeHandler(e, filterDispatch)}
+          checked={sort === filterValues.LATEST ? true : false}
+          onChange={(e) => changeHandler(e, dispatch)}
         />
         <label htmlFor={filterValues.LATEST} className="filter--radio--label">
           <Leaderboard />

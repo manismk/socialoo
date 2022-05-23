@@ -1,14 +1,14 @@
+import { useSelector } from "react-redux";
 import { Filter, Loader, PostCard, SuggestionCard } from "../../components/";
-import { useFilter, usePosts } from "../../context";
 
 export const Explore = () => {
-  const { filterState } = useFilter();
+  const { filteredPosts } = useSelector((state) => state.post);
 
   return (
     <div className="container">
       <div className="post--container">
         <Filter />
-        {filterState.filteredPosts.map((post) => {
+        {filteredPosts.map((post) => {
           return <PostCard post={post} key={post.postId} />;
         })}
       </div>
