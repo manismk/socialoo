@@ -39,8 +39,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    try {
-      db.collection(`posts`).onSnapshot((querySnapshot) => {
+    const unsubscribe = db.collection(`posts`).onSnapshot(
+      (querySnapshot) => {
         dispatch(
           setPostData(
             querySnapshot.docs.map((post) =>
@@ -52,15 +52,17 @@ function App() {
             )
           )
         );
-      });
-    } catch (e) {
-      console.error("Error in getting posts data", e);
-    }
+      },
+      (err) => {
+        console.log("Error in getting post listener", err);
+      }
+    );
+    return () => unsubscribe();
   }, [user]);
 
   useEffect(() => {
-    try {
-      db.collection(`users`).onSnapshot((querySnapshot) => {
+    const unsubscribe = db.collection(`users`).onSnapshot(
+      (querySnapshot) => {
         dispatch(
           setAllUsers(
             querySnapshot.docs.map((user) =>
@@ -72,10 +74,12 @@ function App() {
             )
           )
         );
-      });
-    } catch (e) {
-      console.error("Error in getting userData", e);
-    }
+      },
+      (err) => {
+        console.log("Error in getting user listener", err);
+      }
+    );
+    return () => unsubscribe();
   }, [user?.uid]);
   useEffect(() => {
     dispatch(setCurrentUser(users.find((us) => us.uid === user?.uid)));
