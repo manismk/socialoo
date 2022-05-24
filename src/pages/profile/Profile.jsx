@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 export const Profile = () => {
   const { user } = useSelector((state) => state.auth);
-  const { posts } = useSelector((state) => state.post);
+  const { posts, postLoadingStatus } = useSelector((state) => state.post);
   const navigate = useNavigate();
   const { users, currentUser } = useSelector((state) => state.allUsers);
 
@@ -144,7 +144,7 @@ export const Profile = () => {
       {showEditModal && (
         <EditProfileModal closeModal={() => setEditModal(false)} />
       )}
-      {/* {postLoading && <Loader />} */}
+      {postLoadingStatus && <Loader />}
     </>
   );
 };

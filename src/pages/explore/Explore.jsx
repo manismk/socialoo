@@ -2,7 +2,9 @@ import { useSelector } from "react-redux";
 import { Filter, Loader, PostCard, SuggestionCard } from "../../components/";
 
 export const Explore = () => {
-  const { filteredPosts } = useSelector((state) => state.post);
+  const { filteredPosts, postLoadingStatus } = useSelector(
+    (state) => state.post
+  );
 
   return (
     <div className="container">
@@ -15,7 +17,7 @@ export const Explore = () => {
       <div className="suggestion--container">
         <SuggestionCard />
       </div>
-      {/* {postLoading && <Loader />} */}
+      {postLoadingStatus && <Loader />}
     </div>
   );
 };

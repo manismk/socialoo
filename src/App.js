@@ -17,7 +17,11 @@ import { useEffect } from "react";
 import { auth, db } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./store/features/authSlice";
-import { setPostData, updateFilteredPosts } from "./store/features/postSlice";
+import {
+  setPostData,
+  setPostLoading,
+  updateFilteredPosts,
+} from "./store/features/postSlice";
 import { setAllUsers, setCurrentUser } from "./store/features/userSlice";
 
 function App() {
@@ -39,6 +43,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    dispatch(setPostLoading(true));
     const unsubscribe = db.collection(`posts`).onSnapshot(
       (querySnapshot) => {
         dispatch(
@@ -52,6 +57,7 @@ function App() {
             )
           )
         );
+        dispatch(setPostLoading(false));
       },
       (err) => {
         console.log("Error in getting post listener", err);

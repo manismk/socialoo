@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Loader, PostCard, SuggestionCard } from "../../components";
 
 export const Saved = () => {
-  const { posts } = useSelector((state) => state.post);
+  const { posts, postLoadingStatus } = useSelector((state) => state.post);
   const { currentUser } = useSelector((state) => state.allUsers);
   const [savedPosts, setSavedPosts] = useState([]);
 
@@ -29,7 +29,7 @@ export const Saved = () => {
       <div className="suggestion--container">
         <SuggestionCard />
       </div>
-      {/* {postLoading && <Loader />} */}
+      {postLoadingStatus && <Loader />}
     </div>
   );
 };

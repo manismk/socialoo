@@ -10,6 +10,7 @@ const initialState = {
   editData: {},
   sort: filterValues.LATEST,
   filteredPosts: [],
+  postLoadingStatus: false,
 };
 
 const postSlice = createSlice({
@@ -39,6 +40,9 @@ const postSlice = createSlice({
       state.sort = payload.sort;
       state.filteredPosts = getSortedPosts(state.posts, payload.sort);
     },
+    setPostLoading: (state, { payload }) => {
+      state.postLoadingStatus = payload;
+    },
   },
 });
 
@@ -49,6 +53,7 @@ export const {
   openPostModalFromEdit,
   updateFilteredPosts,
   filterChange,
+  setPostLoading,
 } = postSlice.actions;
 
 export default postSlice.reducer;

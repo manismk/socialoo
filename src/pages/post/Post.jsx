@@ -6,7 +6,7 @@ import "./post.css";
 
 export const Post = () => {
   const { postId } = useParams();
-  const { posts } = useSelector((state) => state.post);
+  const { posts, postLoadingStatus } = useSelector((state) => state.post);
   const [currentPost, setCurrentPost] = useState(null);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export const Post = () => {
       ) : (
         <p className="text--center para--md text--bold">No posts found</p>
       )}
+      {postLoadingStatus && <Loader />}
     </>
   );
 };

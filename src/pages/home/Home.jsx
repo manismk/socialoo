@@ -6,7 +6,9 @@ import "./home.css";
 
 export const Home = () => {
   const { currentUser } = useSelector((state) => state.allUsers);
-  const { filteredPosts } = useSelector((state) => state.post);
+  const { filteredPosts, postLoadingStatus } = useSelector(
+    (state) => state.post
+  );
 
   const [followersPost, setFollowersPost] = useState([]);
   useEffect(() => {
@@ -34,7 +36,7 @@ export const Home = () => {
       <div className="suggestion--container">
         <SuggestionCard />
       </div>
-      {/* {postLoading && <Loader />} */}
+      {postLoadingStatus && <Loader />}
     </div>
   );
 };
