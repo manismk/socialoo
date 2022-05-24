@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  margin: 1rem 0;
+  margin-top: 1.5rem;
 }
 
 .suggestion--item .suggestion--follow {
@@ -23,4 +23,15 @@
 
 .suggestion--item .post--user--name {
   font-size: 1rem;
+}
+
+.avatar--xss {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: cover;
+}
+
+.suggestion--item a {
+  text-decoration: none;
+  color: inherit;
 }

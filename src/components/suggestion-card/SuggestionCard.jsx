@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { handleFollow } from "../../service";
 import "./suggestionCard.css";
 
@@ -28,11 +29,13 @@ export const SuggestionCard = () => {
                 <img
                   src={user.profilePictureUrl}
                   alt="Randomuser"
-                  className="avatar avatar--circle avatar--xs"
+                  className="avatar avatar--circle avatar--xss"
                 />
-                <p className="post--user--name">
-                  {`${user.firstName} ${user.lastName}`}
-                </p>
+                <Link to={`/user/${user.uid}`}>
+                  <p className="post--user--name">
+                    {`${user.firstName} ${user.lastName}`}
+                  </p>
+                </Link>
 
                 <button
                   className="btn btn--link suggestion--follow"

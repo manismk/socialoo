@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { CreatePostModal, RequiresAuth } from "./components";
 import { routes } from "./constant";
@@ -29,6 +29,7 @@ function App() {
   const { user } = useSelector((state) => state.auth);
   const { isCreatePostModalOpen, posts } = useSelector((state) => state.post);
   const { users } = useSelector((state) => state.allUsers);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -94,6 +95,11 @@ function App() {
   useEffect(() => {
     dispatch(updateFilteredPosts(posts));
   }, [posts]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <div className="App container--100">
       <Routes>
