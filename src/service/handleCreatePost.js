@@ -1,6 +1,7 @@
 import { db, storage } from "../firebase";
 import firebase from "firebase/compat/app";
 import { toast } from "react-toastify";
+let toastId;
 
 const createPostInFirebase = (captionText, imageUrl, newPostId, uid) => {
   db.collection(`posts/`)
@@ -18,15 +19,27 @@ const createPostInFirebase = (captionText, imageUrl, newPostId, uid) => {
       { merge: true }
     )
     .then(() => {
-      toast.success("Posted successfully");
+      toast.update(toastId, {
+        render: "Post updated successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 800,
+      });
     })
     .catch((error) => {
-      toast.error("Something Went wrong");
+      toast.update(toastId, {
+        render: "Something went wrong",
+        type: "error",
+        isLoading: false,
+        autoClose: 800,
+      });
       console.log(error);
     });
 };
 
 export const handleCreatePost = (captionText, imageFile, uid) => {
+  toastId = toast.loading("Creating post...");
+
   const newPostId = db.collection(`posts/`).doc();
 
   if (imageFile !== null) {
@@ -39,7 +52,12 @@ export const handleCreatePost = (captionText, imageFile, uid) => {
       firebase.storage.TaskEvent.STATE_CHANGED,
       () => {},
       (error) => {
-        toast.error("Something Went wrong");
+        toast.update(toastId, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: false,
+          autoClose: 800,
+        });
         console.log("Something went wrong in uploading post image", error);
       },
       () => {

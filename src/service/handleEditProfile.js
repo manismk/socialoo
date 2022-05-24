@@ -1,7 +1,7 @@
 import { db, storage } from "../firebase";
-
 import firebase from "firebase/compat/app";
 import { toast } from "react-toastify";
+let toastId;
 
 const updateProfileDataInFirebase = (
   firstName,
@@ -11,17 +11,29 @@ const updateProfileDataInFirebase = (
   profilePictureUrl,
   currentUser
 ) => {
-  try {
-    db.collection(`users/`)
-      .doc(currentUser.uid)
-      .set(
-        { firstName, lastName, bio, portfolioLink, profilePictureUrl },
-        { merge: true }
-      );
-    toast.success("Profile updated successfully");
-  } catch (e) {
-    console.log("Error in Updating data in firebase", e);
-  }
+  db.collection(`users/`)
+    .doc(currentUser.uid)
+    .set(
+      { firstName, lastName, bio, portfolioLink, profilePictureUrl },
+      { merge: true }
+    )
+    .then(() => {
+      toast.update(toastId, {
+        render: "Post updated successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 800,
+      });
+    })
+    .catch((error) => {
+      toast.update(toastId, {
+        render: "Something went wrong",
+        type: "error",
+        isLoading: false,
+        autoClose: 800,
+      });
+      console.log("Error in Updating data in firebase", error);
+    });
 };
 
 export const handleEditProfile = (
@@ -34,6 +46,8 @@ export const handleEditProfile = (
 
   currentUser
 ) => {
+  toastId = toast.loading("Updating profile...");
+
   if (profileImage !== currentUser.profilePictureUrl) {
     const uploadTask = storage
       .ref()
@@ -44,7 +58,12 @@ export const handleEditProfile = (
       firebase.storage.TaskEvent.STATE_CHANGED,
       () => {},
       (error) => {
-        toast.error("Something Went wrong");
+        toast.update(toastId, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: false,
+          autoClose: 800,
+        });
         console.log("Something went wrong in uploading image", error);
       },
       () => {
