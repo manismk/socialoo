@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { InputPassword, InputTextBox } from "../../components";
-import { handleSignUp } from "../../service";
+import { InputPassword, InputTextBox, Loader } from "../../components";
+import { handleSignUp } from "../../store/features/authSlice";
 import { handleSignUpValidation } from "../../utils";
 
 export const SignUp = () => {
@@ -20,6 +21,8 @@ export const SignUp = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const { signUpLoading } = useSelector((state) => state.auth);
 
   const signUpHandler = () => {
     const {
@@ -59,13 +62,15 @@ export const SignUp = () => {
       lastNameError.length === 0 &&
       confirmPasswordError.length === 0
     ) {
-      handleSignUp(
-        userData.userMail,
-        userData.password,
-        userData.firstName,
-        userData.lastName,
-        location,
-        navigate
+      dispatch(
+        handleSignUp({
+          email: userData.userMail,
+          password: userData.password,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          location,
+          navigate,
+        })
       );
     }
   };
@@ -175,6 +180,7 @@ export const SignUp = () => {
           </p>
         </div>
       </main>
+      {signUpLoading && <Loader />}
     </>
   );
 };

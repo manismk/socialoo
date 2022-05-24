@@ -8,6 +8,4 @@ export { handleComment } from "./handleComment";
 export { handleReply } from "./handleReply";
 export { handleCreatePost } from "./handleCreatePost";
 export { handleEditProfile } from "./handleEditProfile";
-export { handleSignIn } from "./handleSignIn";
 export { handleSignOut } from "./handleSignOut";
-export { handleSignUp } from "./handleSignUp";

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { InputPassword, InputTextBox } from "../../components";
+import { InputPassword, InputTextBox, Loader } from "../../components";
 import "./auth.css";
 import { handleLoginValidation } from "../../utils/";
-import { handleSignIn } from "../../service";
+import { handleSignIn } from "../../store/features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Login = () => {
   const [userData, setUserData] = useState({
@@ -12,6 +13,8 @@ export const Login = () => {
     mailError: "",
     passwordError: "",
   });
+  const { loginLoading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,7 +32,14 @@ export const Login = () => {
       }));
     }
     if (mailError.length === 0 && passwordError.length === 0) {
-      handleSignIn(userData.userMail, userData.password, location, navigate);
+      dispatch(
+        handleSignIn({
+          email: userData.userMail,
+          password: userData.password,
+          location,
+          navigate,
+        })
+      );
     }
   };
 
@@ -112,6 +122,7 @@ export const Login = () => {
           </p>
         </div>
       </main>
+      {loginLoading && <Loader />}
     </>
   );
 };
