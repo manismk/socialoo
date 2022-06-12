@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { handleFollow, handleSignOut, handleUnfollow } from "../../service";
 import { useSelector } from "react-redux";
+import { getSortedPosts } from "../../utils";
 
 export const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -24,7 +25,10 @@ export const Profile = () => {
   useEffect(() => {
     setCurrentProfile((prev) => ({
       ...prev,
-      posts: posts.filter((post) => post.uid === userId),
+      posts: getSortedPosts(
+        posts.filter((post) => post.uid === userId),
+        "latest"
+      ),
       currentUser: users.find((user) => user.uid === userId),
       isProfileUserLoggedInUser: user?.uid === userId,
       isLoggedInUserFollowingThisProfile:
