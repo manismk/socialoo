@@ -12,3 +12,4 @@ export { Comment } from "./comment-card/Comment";
 export { ReplyComment } from "./comment-card/ReplyComment";
 export { Loader } from "./loader/Loader";
 export { Filter } from "./filter/Filter";
+export { ProfileUserModal } from "./profile-user-modal/ProfileUserModal";

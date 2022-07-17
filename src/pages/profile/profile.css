@@ -51,6 +51,29 @@
   gap: 1rem;
 }
 
+.cursor--pointer {
+  cursor: pointer;
+}
+
+.profile--heading {
+  text-transform: capitalize;
+}
+
+.modal--profile--users {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.profile--user--close {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
+.profile--user--close svg {
+  font-size: 1.3rem;
+}
+
 @media only screen and (max-width: 570px) {
   .profile--container {
     padding: 1rem;

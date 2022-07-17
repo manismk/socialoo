@@ -1,10 +1,22 @@
 import "./profile.css";
-import { EditProfileModal, Loader, PostCard } from "../../components/";
+import {
+  EditProfileModal,
+  Loader,
+  PostCard,
+  ProfileUserModal,
+} from "../../components/";
 import { Logout } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { handleFollow, handleSignOut, handleUnfollow } from "../../service";
 import { useSelector } from "react-redux";
+import { getSortedPosts } from "../../utils";
+
+const profileUserInitialState = {
+  isShown: false,
+  type: "",
+  users: [],
+};
 
 export const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -20,11 +32,22 @@ export const Profile = () => {
     isProfileUserLoggedInUser: false,
     isLoggedInUserFollowingThisProfile: false,
   });
+  const [profileUserModal, setProfileUserModal] = useState(
+    profileUserInitialState
+  );
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setProfileUserModal(profileUserInitialState);
+  }, [pathname]);
 
   useEffect(() => {
     setCurrentProfile((prev) => ({
       ...prev,
-      posts: posts.filter((post) => post.uid === userId),
+      posts: getSortedPosts(
+        posts.filter((post) => post.uid === userId),
+        "latest"
+      ),
       currentUser: users.find((user) => user.uid === userId),
       isProfileUserLoggedInUser: user?.uid === userId,
       isLoggedInUserFollowingThisProfile:
@@ -105,13 +128,35 @@ export const Profile = () => {
                 </p>
                 <p className="profile--details--name">Posts</p>
               </div>
-              <div className="profile--details--item">
+              <div
+                className="profile--details--item cursor--pointer"
+                tabIndex={0}
+                onClick={() =>
+                  setProfileUserModal((prev) => ({
+                    ...prev,
+                    isShown: true,
+                    users: currentProfileData.currentUser?.followers,
+                    type: "followers",
+                  }))
+                }
+              >
                 <p className="profile--details--count">
                   {currentProfileData.currentUser?.followers?.length}
                 </p>
-                <p className="profile--details--name">Followers</p>
+                <p className="profile--details--name ">Followers</p>
               </div>
-              <div className="profile--details--item">
+              <div
+                className="profile--details--item cursor--pointer"
+                tabIndex={0}
+                onClick={() =>
+                  setProfileUserModal((prev) => ({
+                    ...prev,
+                    isShown: true,
+                    users: currentProfileData.currentUser?.following,
+                    type: "following",
+                  }))
+                }
+              >
                 <p className="profile--details--count">
                   {currentProfileData.currentUser?.following?.length}
                 </p>
@@ -143,6 +188,13 @@ export const Profile = () => {
       )}
       {showEditModal && (
         <EditProfileModal closeModal={() => setEditModal(false)} />
+      )}
+      {profileUserModal.isShown && (
+        <ProfileUserModal
+          profileUsers={profileUserModal.users}
+          closeModal={() => setProfileUserModal(profileUserInitialState)}
+          type={profileUserModal.type}
+        />
       )}
       {postLoadingStatus && <Loader />}
     </>
